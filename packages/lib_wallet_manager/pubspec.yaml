@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  lib_chain_manager:
+    path: ../lib_chain_manager
 
 dev_dependencies:
   flutter_test:
