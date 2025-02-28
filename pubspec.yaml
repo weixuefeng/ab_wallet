@@ -33,7 +33,9 @@ dependencies:
     path: ./packages/lib_token_manager
   lib_wallet_manager:
     path: ./packages/lib_wallet_manager
-
+    # wallet core
+  flutter_trust_wallet_core:
+    path: ./packages/flutter_trust_wallet_core
 dev_dependencies:
   flutter_test:
     sdk: flutter

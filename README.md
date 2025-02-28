@@ -7,7 +7,7 @@
 
 `链`: 一个区块链网络，如 `blockchain`、`ethereum`、`polygon`、`abchain` 等, 代码体现 `ABCahinInfo`.
 
-// todo: 定义不同资产，erc20, erc721, erc1155, brc20, 等协议资产
+
 `代币`: 一个链上的资产，如 `ETH`、`BTC`、`AB` 等, 一个链上可以有多种代币, 代码体现 `ABTokenInfo`.
 
 `钱包`: 一个钱包可以管理多个链，一个链可以有多个钱包

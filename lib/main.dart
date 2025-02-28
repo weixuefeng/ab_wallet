@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:lib_network/impl/ab_api_network_impl.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:force_wallet/module/demo/demo_page.dart';
 import 'package:force_wallet/repositry/transaction_repo.dart';
 
-void main() {
+void main() async {
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -47,23 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() async {
-    var a = ABApiNetworkImpl();
-    int errorCode = -1;
-    var b = ABApiNetworkImpl();
-    var repo = TransactionRepo();
-    // var r = await repo.getTransactionById("");
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (
-          BuildContext context,
-          Animation<double> animation,
-          Animation<double> secondaryAnimation,
-        ) {
-          return const DemoPage();
-        },
-      ),
+    FlutterTrustWalletCore.init();
+    var hd = HDWallet.createWithMnemonic(
+      "gym avoid gentle stereo code yard kangaroo leisure merge piece permit inch",
     );
+    var addr = hd.getAddressForCoin(TWCoinType.TWCoinTypeNewChain);
+    var addr2 = hd.getAddressForCoin(TWCoinType.TWCoinTypeEthereum);
+    ABLogger.d("addr is: " + addr + "\r\n eth: $addr2");
+    // Navigator.push(
+    //   context,
+    //   PageRouteBuilder(
+    //     pageBuilder: (
+    //       BuildContext context,
+    //       Animation<double> animation,
+    //       Animation<double> secondaryAnimation,
+    //     ) {
+    //       return const DemoPage();
+    //     },
+    //   ),
+    // );
   }
 
   @override
