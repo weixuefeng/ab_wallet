@@ -16,6 +16,4 @@ abstract class ABChainManagerInterface {
 
   /// 获取DApp当前选中的链信息
   Future<ABChainInfo?> getDAppSelectedChainInfo();
-
-
 }

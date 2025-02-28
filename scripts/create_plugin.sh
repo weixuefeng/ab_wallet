@@ -15,4 +15,4 @@ mkdir -p $1
 cd $1
 
 # 创建 flutter package
-flutter create -t package --org org.ab.newpay.$1 .
+flutter create -t plugin --org org.ab.newpay.$1 --platforms android,ios,web .

@@ -31,5 +31,4 @@ class ABChainManagerImpl extends ABChainManagerInterface {
     // TODO: implement setSelectedChainInfo
     throw UnimplementedError();
   }
-
 }

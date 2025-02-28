@@ -1,3 +1,3 @@
 #!/bin/zsh
-flutter pub global activate ffigen
-dart run fgen
+flutter pub global activate protoc_plugin
+dart run ffigen

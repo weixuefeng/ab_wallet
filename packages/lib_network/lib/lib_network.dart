@@ -1,3 +1,1 @@
-class ABNetwork {
-  
-}
+class ABNetwork {}

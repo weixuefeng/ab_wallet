@@ -5,6 +5,8 @@ import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_network/impl/ab_api_network_impl.dart';
+import 'package:lib_web3_core/impl/wallet_method_impl.dart';
+import 'package:lib_web3_core/utils/wallet_method_extension.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'package:force_wallet/module/demo/demo_page.dart';
@@ -29,9 +31,7 @@ class MyApp extends HookConsumerWidget {
     // final String value = ref.watch(greetingProvider);
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -51,42 +51,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() async {
     FlutterTrustWalletCore.init();
-    var hd = HDWallet.createWithMnemonic(
-      "gym avoid gentle stereo code yard kangaroo leisure merge piece permit inch",
-    );
-    var addr = hd.getAddressForCoin(TWCoinType.TWCoinTypeNewChain);
-    var addr2 = hd.getAddressForCoin(TWCoinType.TWCoinTypeEthereum);
-    ABLogger.d("addr is: " + addr + "\r\n eth: $addr2");
-    // Navigator.push(
-    //   context,
-    //   PageRouteBuilder(
-    //     pageBuilder: (
-    //       BuildContext context,
-    //       Animation<double> animation,
-    //       Animation<double> secondaryAnimation,
-    //     ) {
-    //       return const DemoPage();
-    //     },
-    //   ),
-    // );
+    var mnemonic = "gym avoid gentle stereo code yard kangaroo leisure merge piece permit inch";
+    var types = [
+      TWCoinType.TWCoinTypeEthereum,
+      TWCoinType.TWCoinTypeNewChain,
+      TWCoinTypeExtension.TWCoinTypeNewChainDevnet,
+      TWCoinTypeExtension.TWCoinTypeNewChainTestnet,
+    ];
+    var wallets = await WalletMethod().createAccountsByMnemonicAndTypes(mnemonic: mnemonic, coinTypes: types);
+    for (var wallet in wallets) {
+      ABLogger.d(wallet.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text(widget.title)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
           ],
         ),
       ),

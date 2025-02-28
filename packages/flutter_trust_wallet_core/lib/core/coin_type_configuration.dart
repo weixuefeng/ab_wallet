@@ -30,4 +30,9 @@ class CoinTypeConfiguration {
   static String getName(int type) {
     return TWCoinTypeConfigurationImpl.getName(type);
   }
+
+  static String getDerivatePath(int type) {
+    final derivationPath = TWCoinType.TWCoinTypeDerivationPath(type);
+    return TWStringImpl.toDartString(derivationPath);
+  }
 }

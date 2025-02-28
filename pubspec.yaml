@@ -36,6 +36,8 @@ dependencies:
     # wallet core
   flutter_trust_wallet_core:
     path: ./packages/flutter_trust_wallet_core
+  lib_web3_core:
+    path: ./packages/lib_web3_core
 dev_dependencies:
   flutter_test:
     sdk: flutter

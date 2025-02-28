@@ -77,4 +77,65 @@ class TWHDWalletImpl extends TWHDWallet {
 
     return TWStringImpl.toDartString(publicKey);
   }
+
+  static String getExtendedPrivateKey(Pointer<Void> wallet, int purpose, int coinType, int twHdVersion) {
+    final privateKey = TWHDWallet.TWHDWalletGetExtendedPrivateKey(wallet, purpose, coinType, twHdVersion);
+    return TWStringImpl.toDartString(privateKey);
+  }
+
+  static Pointer<Void> getPrivateKeyFromExtended(String extended, int coin, String derivationPath) {
+    final _extended = TWStringImpl.toTWString(extended);
+    final _derivationPath = TWStringImpl.toTWString(derivationPath);
+    final Pointer<Void> privateKey = TWHDWallet.TWHDWalletGetPrivateKeyFromExtended(_extended, coin, _derivationPath);
+    TWStringImpl.delete(_derivationPath);
+    return privateKey;
+  }
+
+  static Pointer<Void> getPrivateKeyByChainCode(String chainCode, String key, int coin, String derivationPath) {
+    final _chainCode = TWStringImpl.toTWString(chainCode);
+    final _key = TWStringImpl.toTWString(key);
+    final _derivationPath = TWStringImpl.toTWString(derivationPath);
+    final Pointer<Void> privateKey = TWHDWallet.TWHDWalletGetPrivateKeyByChainCode(
+      _chainCode,
+      _key,
+      coin,
+      _derivationPath,
+    );
+    TWStringImpl.delete(_derivationPath);
+    return privateKey;
+  }
+
+  static String getHDNode(String mnemonic, int coin, String derivationPath) {
+    final _mnemonic = TWStringImpl.toTWString(mnemonic);
+    final _derivationPath = TWStringImpl.toTWString(derivationPath);
+    return TWStringImpl.toDartString(TWHDWallet.TWHDWalletGetHDNode(_mnemonic, coin, _derivationPath));
+  }
+
+  static Pointer<Void> getPrivateKeyByChainCodeCardano(
+    String key,
+    String ext,
+    String chainCode,
+    int coin,
+    String derivationPath,
+  ) {
+    final _chainCode = TWStringImpl.toTWString(chainCode);
+    final _key = TWStringImpl.toTWString(key);
+    final _ext = TWStringImpl.toTWString(ext);
+    final _derivationPath = TWStringImpl.toTWString(derivationPath);
+    final Pointer<Void> privateKey = TWHDWallet.TWHDWalletGetPrivateKeyByChainCodeCardano(
+      _key,
+      _ext,
+      _chainCode,
+      coin,
+      _derivationPath,
+    );
+    TWStringImpl.delete(_derivationPath);
+    return privateKey;
+  }
+
+  static String getHDNodeCardano(String mnemonic, int coin, String derivationPath) {
+    final _mnemonic = TWStringImpl.toTWString(mnemonic);
+    final _derivationPath = TWStringImpl.toTWString(derivationPath);
+    return TWStringImpl.toDartString(TWHDWallet.TWHDWalletGetHDNodeCardano(_mnemonic, coin, _derivationPath));
+  }
 }
