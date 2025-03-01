@@ -18,6 +18,8 @@ dependencies:
   # 比特币WIF编码
   dart_wif: 2.1.1
   on_chain: 6.1.0
+    # EVM签名工具
+  eth_sig_util: 0.0.9
   lib_base:
     path: ../lib_base
   flutter_trust_wallet_core:

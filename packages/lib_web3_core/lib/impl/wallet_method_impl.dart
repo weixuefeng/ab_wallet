@@ -35,10 +35,10 @@ class WalletMethod extends WalletMethodInterface {
   /// singleton
   WalletMethod._internal();
 
-  static final WalletMethod _instance = WalletMethod._internal();
+  static final WalletMethod instance = WalletMethod._internal();
 
   factory WalletMethod() {
-    return _instance;
+    return instance;
   }
 
   @override

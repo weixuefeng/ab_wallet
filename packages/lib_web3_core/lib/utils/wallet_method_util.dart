@@ -121,4 +121,17 @@ class WalletMethodUtils {
     var res = NEW_PREFIX + Base58.base58Encode(data.toUint8List());
     return res;
   }
+
+  static String newAddressToHex(String address) {
+    if (!address.startsWith(NEW_PREFIX)) {
+      return address;
+    }
+    var data = Base58.base58Decode(address.substring(NEW_PREFIX.length));
+    if (data!.length < 5) {
+      throw "invalid address: $address";
+    }
+    var decoded = hex.encode(data);
+    var result = decoded.substring(decoded.length - 40);
+    return result.include0x();
+  }
 }

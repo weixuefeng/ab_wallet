@@ -1,16 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
-import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lib_base/lib_base.dart';
-import 'package:lib_network/impl/ab_api_network_impl.dart';
-import 'package:lib_web3_core/impl/wallet_method_impl.dart';
-import 'package:lib_web3_core/utils/wallet_method_extension.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-
-import 'package:force_wallet/module/demo/demo_page.dart';
-import 'package:force_wallet/repositry/transaction_repo.dart';
 
 void main() async {
   runApp(ProviderScope(child: const MyApp()));
@@ -49,20 +40,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() async {
-    FlutterTrustWalletCore.init();
-    var mnemonic = "gym avoid gentle stereo code yard kangaroo leisure merge piece permit inch";
-    var types = [
-      TWCoinType.TWCoinTypeEthereum,
-      TWCoinType.TWCoinTypeNewChain,
-      TWCoinTypeExtension.TWCoinTypeNewChainDevnet,
-      TWCoinTypeExtension.TWCoinTypeNewChainTestnet,
-    ];
-    var wallets = await WalletMethod().createAccountsByMnemonicAndTypes(mnemonic: mnemonic, coinTypes: types);
-    for (var wallet in wallets) {
-      ABLogger.d(wallet.toString());
-    }
-  }
+  void _incrementCounter() async {}
 
   @override
   Widget build(BuildContext context) {
