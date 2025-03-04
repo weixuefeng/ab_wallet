@@ -20,6 +20,9 @@ class ABWalletInfo {
   // encrypt string
   late String encryptStr;
 
+  // wallet flag
+  late String flag;
+
   // construct
   ABWalletInfo({
     required this.walletId,
@@ -28,6 +31,7 @@ class ABWalletInfo {
     required this.walletType,
     required this.walletAccounts,
     required this.encryptStr,
+    required this.flag,
   });
 
   @override
@@ -43,6 +47,7 @@ class ABWalletInfo {
       'walletType': walletType.typeIndex,
       'walletAccounts': walletAccounts.map((e) => e.toJson()).toList(),
       'encryptStr': encryptStr,
+      'flag': flag,
     };
   }
 
@@ -54,6 +59,7 @@ class ABWalletInfo {
       walletType: ABWalletType.fromIndex(json['walletType']),
       walletAccounts: (json['walletAccounts'] as List).map((e) => ABAccount.fromJson(e)).toList(),
       encryptStr: json['encryptStr'],
+      flag: json['flag'] ?? '',
     );
   }
 }

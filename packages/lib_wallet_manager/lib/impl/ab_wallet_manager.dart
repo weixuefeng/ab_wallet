@@ -1,5 +1,4 @@
 import 'package:lib_chain_manager/model/ab_chain_info.dart';
-import 'package:lib_storage/ab_storage_kv.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_storage.dart';
 import 'package:lib_wallet_manager/interface/ab_wallet_manager_interface.dart';
 import 'package:lib_wallet_manager/model/ab_account.dart';
@@ -11,12 +10,12 @@ import 'package:lib_web3_core/impl/wallet_method_impl.dart';
 import 'package:lib_web3_core/model/wallet_account_model.dart';
 import 'package:lib_web3_core/utils/wallet_method_util.dart';
 
-class AbWalletManager extends ABWalletManagerInterface {
-  AbWalletManager._internal();
+class ABWalletManager extends ABWalletManagerInterface {
+  ABWalletManager._internal();
 
-  static final AbWalletManager instance = AbWalletManager._internal();
+  static final ABWalletManager instance = ABWalletManager._internal();
 
-  factory AbWalletManager() {
+  factory ABWalletManager() {
     return instance;
   }
 
@@ -57,6 +56,24 @@ class AbWalletManager extends ABWalletManagerInterface {
     required List<ABChainInfo> chainInfos,
     required String secretKey,
   }) async {
+    // check exist
+    var currentWalletList = await ABWalletStorage.instance.getAllWalletList();
+    String flag = "";
+    if (walletType == ABWalletType.mnemonic) {
+      flag = WalletMethodUtils.walletFlag(secretKey);
+    } else if (walletType == ABWalletType.privateKey) {
+      if (chainInfos.length > 1) {
+        throw Exception("private key wallet only support one chain");
+      }
+      flag = WalletMethodUtils.walletFlag(secretKey + chainInfos[0].chainId.toString());
+    } else {
+      throw Exception("not support wallet type $walletType");
+    }
+    var index = currentWalletList.indexWhere((element) => element.flag == flag);
+    if (index > -1) {
+      throw Exception("wallet already exist");
+    }
+    // create new wallet
     var walletId = await ABWalletStorage.instance.getWalletNextId();
     var accountId = await ABWalletStorage.instance.getAccountNextId(walletId: walletId);
     Map<ChainId, ABAccountDetail> accountDetailsMap = {};
@@ -85,10 +102,10 @@ class AbWalletManager extends ABWalletManagerInterface {
       walletName: walletName,
       walletType: walletType,
       walletAccounts: [account],
+      flag: flag,
       encryptStr: WalletMethodUtils.encryptAES(secretKey, password),
     );
     // save to local
-    var currentWalletList = await ABWalletStorage.instance.getAllWalletList();
     currentWalletList.add(walletInfo);
     ABWalletStorage.instance.saveWalletList(walletInfo: currentWalletList);
     return walletInfo;
@@ -119,8 +136,7 @@ class AbWalletManager extends ABWalletManagerInterface {
 
   @override
   Future<bool> deleteWallet({required ABWalletInfo walletInfo}) {
-    // TODO: implement deleteWallet
-    throw UnimplementedError();
+    return ABWalletStorage.instance.deleteWalletInfo(walletInfo: walletInfo);
   }
 
   @override

@@ -27,7 +27,7 @@ class ABWalletStorage extends ABWalletStorageInterface {
 
   Future<int> getAccountNextId({required int walletId}) async {
     var key = "${accountCounterKey}_$walletId";
-    int currentId = ABStorageKV.queryInt(key, defaultValue: 1);
+    int currentId = ABStorageKV.queryInt(key, defaultValue: 0);
     int nextId = currentId + 1;
     ABStorageKV.saveInt(key, nextId);
     return nextId;
@@ -75,5 +75,17 @@ class ABWalletStorage extends ABWalletStorageInterface {
   Future<bool> updateWalletPassword({required int walletId, required String oldPassword, required String newPassword}) {
     // TODO: implement updateWalletPassword
     throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> deleteWalletInfo({required ABWalletInfo walletInfo}) async {
+    try {
+      var wallets = await getAllWalletList();
+      wallets.removeWhere((item) => item.flag == walletInfo.flag);
+      await saveWalletList(walletInfo: wallets);
+      return true;
+    } catch (e) {
+      rethrow;
+    }
   }
 }

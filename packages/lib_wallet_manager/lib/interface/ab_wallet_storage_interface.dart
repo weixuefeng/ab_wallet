@@ -5,6 +5,8 @@ abstract class ABWalletStorageInterface {
 
   Future<List<ABWalletInfo>> getAllWalletList();
 
+  Future<bool> deleteWalletInfo({required ABWalletInfo walletInfo});
+
   Future<ABWalletInfo> getWalletByWalletId({required int walletId});
 
   Future<bool> updateWalletName({required int walletId, required String newName});

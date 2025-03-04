@@ -1,4 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
+import 'dart:developer' as developer;
+
+class MyConsoleOutput extends ConsoleOutput {
+  @override
+  void output(OutputEvent event) {
+    event.lines.forEach(developer.log);
+  }
+}
 
 class ABLogger {
   static final ABLogger _instance = ABLogger._internal();
@@ -12,16 +21,7 @@ class ABLogger {
 
   // 生成 logger 单例
   static Logger _createLogger() {
-    return Logger(
-      printer: PrettyPrinter(
-        methodCount: 2,
-        errorMethodCount: 8,
-        lineLength: 120,
-        colors: true,
-        printEmojis: true,
-        printTime: true,
-      ),
-    );
+    return Logger(printer: PrettyPrinter());
   }
 
   static void i(dynamic message, {DateTime? time, Object? error, StackTrace? stackTrace}) {

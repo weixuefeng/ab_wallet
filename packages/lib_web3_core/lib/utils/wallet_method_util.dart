@@ -155,4 +155,8 @@ class WalletMethodUtils {
     var result = TwAesImpl.decryptCBC(passwordData, data, iv, TWAESPaddingMode.TWAESPaddingModePKCS7);
     return utf8.decode(result);
   }
+
+  static String walletFlag(String data) {
+    return Base58.base58Encode(Hash.hashSHA256(data.utf8Encode()));
+  }
 }
