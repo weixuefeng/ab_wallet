@@ -85,6 +85,7 @@ class ABWalletManager extends ABWalletManagerInterface {
         defaultPublicKey: walletModel.accountPublicKey,
         derivationPath: walletModel.extendedPath,
         chainInfo: chainInfo,
+        extendedPublicKey: walletModel.accountExtendedPublicKey,
         encryptedKey: WalletMethodUtils.encryptAES(walletModel.accountPrivateKey, password),
         protocolAccounts: _getProtocolAccounts(walletModel: walletModel),
       );
@@ -137,6 +138,36 @@ class ABWalletManager extends ABWalletManagerInterface {
   @override
   Future<bool> deleteWallet({required ABWalletInfo walletInfo}) {
     return ABWalletStorage.instance.deleteWalletInfo(walletInfo: walletInfo);
+  }
+
+  @override
+  Future<ABAccount> addAcountForWallet({required ABWalletInfo info, required String password}) async {
+    var accountId = await ABWalletStorage.instance.getAccountNextId(walletId: info.walletId);
+    Map<ChainId, ABAccountDetail> accountDetailsMap = {};
+    info.walletAccounts[0].accountDetailsMap.values.forEach((detail) async {
+      WalletAccountModel walleModel = await WalletMethod.instance.createAccountsByExtenedPublicKey(
+        extenedPublicKey: detail.extendedPublicKey,
+        coinType: detail.chainInfo.walletCoreCoinType,
+        position: accountId,
+      );
+      accountDetailsMap[detail.chainInfo.chainId] = ABAccountDetail(
+        defaultAddress: walleModel.accountAddress,
+        defaultPublicKey: walleModel.accountPublicKey,
+        derivationPath: walleModel.extendedPath,
+        chainInfo: detail.chainInfo,
+        extendedPublicKey: walleModel.accountExtendedPublicKey,
+        encryptedKey: WalletMethodUtils.encryptAES(walleModel.accountPrivateKey, password.toString()),
+        protocolAccounts: _getProtocolAccounts(walletModel: walleModel),
+      );
+    });
+    ABAccount account = ABAccount(
+      index: accountId,
+      accountName: "Account $accountId",
+      accountDetailsMap: accountDetailsMap,
+    );
+    info.walletAccounts.add(account);
+    await ABWalletStorage.instance.saveWalletList(walletInfo: [info]);
+    return account;
   }
 
   @override

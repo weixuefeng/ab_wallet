@@ -1,17 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
-import 'package:lib_chain_manager/impl/ab_chain_manager_impl.dart';
 import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_manager.dart';
-import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
-import 'package:lib_wallet_manager/model/ab_wallet_type.dart';
+import 'package:lib_web3_core/impl/wallet_method_impl.dart';
 import 'package:lib_web3_core/utils/wallet_method_extension.dart';
 import 'package:lib_web3_core/utils/wallet_method_util.dart';
 
@@ -64,7 +60,18 @@ class DemoPage extends HookConsumerWidget {
     ABLogger.d("after wallet length: ${info.length}  deleted: ${deleted}");
   }
 
-  void addAccountForWallet() async {}
+  void addAccountForWallet() async {
+    FlutterTrustWalletCore.init();
+    await ABStorageInitializer.setup();
+    var chainInfos = await MockAbChainManagerImpl.instance.getAllChainInfos();
+
+    var mnemonic = "tourist powder soccer travel lunch vast utility manual dog two measure office";
+    var coinType = TWCoinType.TWCoinTypeNewChain;
+
+    var wallet = await ABWalletManager.instance.getAllWalletInfos();
+    var account = await ABWalletManager.instance.addAcountForWallet(info: wallet[0], password: "123456");
+    ABLogger.d(account.toJson());
+  }
 
   void getAllWallet() async {
     var info = await ABWalletManager.instance.getAllWalletInfos();

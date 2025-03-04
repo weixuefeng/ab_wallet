@@ -87,8 +87,14 @@ class TWHDWalletImpl extends TWHDWallet {
     final _extended = TWStringImpl.toTWString(extended);
     final _derivationPath = TWStringImpl.toTWString(derivationPath);
     final Pointer<Void> privateKey = TWHDWallet.TWHDWalletGetPrivateKeyFromExtended(_extended, coin, _derivationPath);
-    TWStringImpl.delete(_derivationPath);
     return privateKey;
+  }
+
+  static Pointer<Void> getPublicKeyFromExtended(String extended, int coin, String derivationPath) {
+    final _extended = TWStringImpl.toTWString(extended);
+    final _derivationPath = TWStringImpl.toTWString(derivationPath);
+    final Pointer<Void> publicKey = TWHDWallet.TWHDWalletGetPublicKeyFromExtended(_extended, coin, _derivationPath);
+    return publicKey;
   }
 
   static Pointer<Void> getPrivateKeyByChainCode(String chainCode, String key, int coin, String derivationPath) {

@@ -253,7 +253,6 @@ class WalletMethod extends WalletMethodInterface {
       accountAddress = hdWallet.getAddressForCoin(coinType);
       accountAddress = formatAddress(address: accountAddress, coinType: coinType);
     }
-
     var privateKey = hdWallet.getKeyForCoin(coinType);
     var accountPrivateKey = hex.encode(privateKey.data());
     var publicKey = privateKey.getPublicKey(TWCoinType.TWCoinTypeCurve(coinType), _isCompressedPubkey(coinType));
@@ -393,5 +392,34 @@ class WalletMethod extends WalletMethodInterface {
         break;
     }
     return res;
+  }
+
+  @override
+  Future<WalletAccountModel> createAccountsByExtenedPublicKey({
+    required String extenedPublicKey,
+    required int coinType,
+    required int position,
+    int? deriveIndex,
+  }) {
+    var derivationPath = WalletMethodUtils.getDerivationPathByCoinType(coinType: coinType, index: position);
+    var publicKey = PublicKey.getPublicKeyFromExtended(extenedPublicKey, coinType, derivationPath);
+    var address = AnyAddress.createWithPublicKey(publicKey, coinType);
+    var chainKey = CoinTypeConfiguration.getSymbol(coinType);
+    var accountAddress = address.description();
+    accountAddress = formatAddress(address: accountAddress, coinType: coinType);
+    var accountPublicKey = hex.encode(publicKey.data());
+    var model = WalletAccountModel(
+      chainKey,
+      position,
+      accountAddress,
+      "",
+      accountPublicKey,
+      "",
+      extenedPublicKey,
+      derivationPath,
+      _getWrokAroundDerivationPath(coinType),
+    );
+    model.extendKey(coinType);
+    return Future.value(model);
   }
 }

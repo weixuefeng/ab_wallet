@@ -31,6 +31,14 @@ abstract class WalletMethodInterface {
     int? deriveIndex,
   });
 
+  /// 根据扩展公钥创建钱包账户
+  Future<WalletAccountModel> createAccountsByExtenedPublicKey({
+    required String extenedPublicKey,
+    required int coinType,
+    required int position,
+    int? deriveIndex,
+  });
+
   /// 根据 keystore 和 coinType 创建钱包
   Future<WalletAccountModel> createAccountByKeystore({
     required String keystore,

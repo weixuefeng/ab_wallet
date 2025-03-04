@@ -1,9 +1,13 @@
 import 'package:lib_chain_manager/model/ab_chain_info.dart';
+import 'package:lib_wallet_manager/model/ab_account.dart';
 import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 
 abstract class ABWalletManagerInterface {
   /// 获取所有钱包信息
   Future<List<ABWalletInfo>> getAllWalletInfos();
+
+  /// 给钱包添加账户
+  Future<ABAccount> addAcountForWallet({required ABWalletInfo info, required String password});
 
   /// 设置当前选中的钱包信息
   Future<bool> setSelectedWalletInfo({required ABWalletInfo info});

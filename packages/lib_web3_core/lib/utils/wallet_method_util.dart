@@ -159,4 +159,51 @@ class WalletMethodUtils {
   static String walletFlag(String data) {
     return Base58.base58Encode(Hash.hashSHA256(data.utf8Encode()));
   }
+
+  static String getDerivationPathByCoinType({required int coinType, required int index}) {
+    switch (coinType) {
+      case TWCoinType.TWCoinTypeEthereum:
+        return "m/44'/60'/0'/0/$index";
+      case TWCoinType.TWCoinTypeNewChain:
+      case TWCoinTypeExtension.TWCoinTypeNewChainDevnet:
+      case TWCoinTypeExtension.TWCoinTypeNewChainTestnet:
+        return "m/44'/1642'/0'/0/$index";
+      case TWCoinType.TWCoinTypeBitcoin:
+        return "m/44'/0'/0'/0/0";
+      case TWCoinType.TWCoinTypeBitcoinCash:
+        return "m/44'/145'/0'/0/0";
+      case TWCoinType.TWCoinTypeBitcoinGold:
+        return "m/44'/156'/0'/0/0";
+      case TWCoinType.TWCoinTypeDash:
+        return "m/44'/5'/0'/0/0";
+      case TWCoinType.TWCoinTypeDigiByte:
+        return "m/44'/20'/0'/0/0";
+      case TWCoinType.TWCoinTypeDogecoin:
+        return "m/44'/3'/0'/0/0";
+      case TWCoinType.TWCoinTypeEthereumClassic:
+        return "m/44'/61'/0'/0/0";
+      case TWCoinType.TWCoinTypeLitecoin:
+        return "m/44'/2'/0'/0/0";
+      case TWCoinType.TWCoinTypeTezos:
+        return "m/44'/1729'/0'/0/0";
+      case TWCoinType.TWCoinTypeTron:
+        return "m/44'/195'/0'/0/0";
+      case TWCoinType.TWCoinTypeVeChain:
+        return "m/44'/818'/0'/0/0";
+      case TWCoinType.TWCoinTypeZcash:
+        return "m/44'/133'/0'/0/0";
+      case TWCoinType.TWCoinTypeStellar:
+        return "m/44'/148'/0'";
+      case TWCoinType.TWCoinTypeCosmos:
+        return "m/44'/118'/0'/0/0";
+      case TWCoinType.TWCoinTypeFilecoin:
+        return "m/44'/461'/0'/0/0";
+      case TWCoinType.TWCoinTypeSolana:
+        return "";
+      case TWCoinType.TWCoinTypeCardano:
+        return "m/1852'/1815'/0'/0/0";
+      default:
+        return "not support for coinType";
+    }
+  }
 }

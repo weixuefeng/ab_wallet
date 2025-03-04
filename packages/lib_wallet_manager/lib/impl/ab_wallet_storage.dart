@@ -19,7 +19,7 @@ class ABWalletStorage extends ABWalletStorageInterface {
   }
 
   Future<int> getWalletNextId() async {
-    int currentId = ABStorageKV.queryInt(walletCounterKey, defaultValue: 1);
+    int currentId = ABStorageKV.queryInt(walletCounterKey, defaultValue: -1);
     int nextId = currentId + 1;
     ABStorageKV.saveInt(walletCounterKey, nextId);
     return nextId;
@@ -27,7 +27,7 @@ class ABWalletStorage extends ABWalletStorageInterface {
 
   Future<int> getAccountNextId({required int walletId}) async {
     var key = "${accountCounterKey}_$walletId";
-    int currentId = ABStorageKV.queryInt(key, defaultValue: 0);
+    int currentId = ABStorageKV.queryInt(key, defaultValue: -1);
     int nextId = currentId + 1;
     ABStorageKV.saveInt(key, nextId);
     return nextId;

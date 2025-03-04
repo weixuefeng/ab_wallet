@@ -16,6 +16,12 @@ class PublicKey {
     _nativehandle = TWPublicKey.TWPublicKeyCreateWithData(data, publicKeyType);
   }
 
+  PublicKey.getPublicKeyFromExtended(String extend, int coinType, String derivationPath) {
+    final pointer = TWHDWalletImpl.getPublicKeyFromExtended(extend, coinType, derivationPath);
+    _nativehandle = pointer;
+    if (_nativehandle.hashCode == 0) throw Exception(["PublicKey nativehandle is null"]);
+  }
+
   static bool isValid(Uint8List data, int publivKeyType) {
     return TWPublicKeyImpl.isValid(data, publivKeyType);
   }
