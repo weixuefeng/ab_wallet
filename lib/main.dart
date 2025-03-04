@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:force_wallet/module/demo/demo_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lib_storage/lib_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-void main() async {
+void main() {
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -40,7 +43,16 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
-  void _incrementCounter() async {}
+  void _incrementCounter() async {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const DemoPage();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

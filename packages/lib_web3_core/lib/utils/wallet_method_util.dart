@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:big_decimal/big_decimal.dart';
 import 'package:convert/convert.dart';
 import 'package:dart_wif/dart_wif.dart';
+import 'package:flutter_trust_wallet_core/dart_impl/tw_aes_impl.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:lib_base/lib_base.dart';
@@ -133,5 +134,25 @@ class WalletMethodUtils {
     var decoded = hex.encode(data);
     var result = decoded.substring(decoded.length - 40);
     return result.include0x();
+  }
+
+  static String encryptAES(String msg, String password) {
+    Uint8List msgData = msg.utf8Encode();
+    Uint8List passwordData = Hash.hashSHA256(password.utf8Encode());
+    var iv = HDWallet().seed().sublist(0, 32);
+    var result = TwAesImpl.encryptCBC(passwordData, msgData, iv, TWAESPaddingMode.TWAESPaddingModePKCS7);
+    Uint8List info = Uint8List(iv.length + result.length);
+    info.setAll(0, iv);
+    info.setAll(iv.length, result);
+    return base64Encode(info);
+  }
+
+  static String decryptAES(String encrypted, String password) {
+    Uint8List info = base64Decode(encrypted);
+    Uint8List iv = info.sublist(0, 32);
+    var data = info.sublist(32);
+    Uint8List passwordData = Hash.hashSHA256(password.utf8Encode());
+    var result = TwAesImpl.decryptCBC(passwordData, data, iv, TWAESPaddingMode.TWAESPaddingModePKCS7);
+    return utf8.decode(result);
   }
 }

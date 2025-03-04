@@ -10,6 +10,35 @@ class ABProtocolAccount {
   /// 衍生路径
   late String derivationPath;
 
+  late String encryptedKey;
+
   /// 协议类型
   late ABAccountProtocolType protocolType;
+
+  ABProtocolAccount({
+    required this.publicKeyHex,
+    required this.address,
+    required this.derivationPath,
+    required this.encryptedKey,
+    required this.protocolType,
+  });
+
+  toJson() {
+    return {
+      'publicKeyHex': publicKeyHex,
+      'address': address,
+      'derivationPath': derivationPath,
+      'protocolType': protocolType.protocolIndex,
+    };
+  }
+
+  factory ABProtocolAccount.fromJson(Map<String, dynamic> json) {
+    return ABProtocolAccount(
+      publicKeyHex: json['publicKeyHex'],
+      address: json['address'],
+      derivationPath: json['derivationPath'],
+      encryptedKey: json['encryptedKey'],
+      protocolType: ABAccountProtocolType.fromIndex(json['protocolType']),
+    );
+  }
 }

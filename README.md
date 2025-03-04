@@ -83,3 +83,8 @@ TODO://
 
 ### `lib_wallet_manager`: 钱包管理 
 
+### 钱包数据库结构
+
+| Field | Type | Desc | 
+|:-:|:-:|:-:|
+| ||

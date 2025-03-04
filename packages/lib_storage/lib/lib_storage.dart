@@ -6,7 +6,7 @@ import 'package:path_provider/path_provider.dart';
 
 class ABStorageInitializer {
   /// 初始化
-  static Future<void> setup({required String securityKey}) async {
+  static Future<void> setup({String? securityKey}) async {
     await _initMMKV();
     await _initStorageKey(securityKey);
   }
@@ -31,7 +31,7 @@ class ABStorageInitializer {
   }
 
   /// 获取存储加密 Key
-  static Future<void> _initStorageKey(String key) async {
-    ABStorageSecureKV.setup(key);
+  static Future<void> _initStorageKey(String? key) async {
+    ABStorageSecureKV.setup(key ?? "");
   }
 }

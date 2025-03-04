@@ -3,10 +3,10 @@ import 'package:lib_storage/ab_cache.dart';
 import 'package:lib_storage/ab_cache_utils.dart';
 import 'package:mmkv/mmkv.dart';
 
-class GTStorageKV {
+class ABStorageKV {
   static MMKV? _mmkv;
 
-  GTStorageKV._();
+  ABStorageKV._();
 
   static MMKV? _getDefaultMMKV() {
     _mmkv ??= MMKV.defaultMMKV();
@@ -17,19 +17,9 @@ class GTStorageKV {
 
   /// [expireDurationInSecond] override the default duration setting from [enableAutoKeyExpire()]
   /// [expireDurationInSecond] 为 null 时，表示永不过期
-  static void saveString(
-    String key,
-    String value, {
-    int? expireDurationInSecond,
-  }) {
-    ABLogger.i(
-      "saveString key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond",
-    );
-    _getDefaultMMKV()?.encodeString(
-      key,
-      value,
-      ABCacheUtils.checkExpireTime(expireDurationInSecond),
-    );
+  static void saveString(String key, String value, {int? expireDurationInSecond}) {
+    ABLogger.i("saveString key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond");
+    _getDefaultMMKV()?.encodeString(key, value, ABCacheUtils.checkExpireTime(expireDurationInSecond));
   }
 
   static String? queryString(String key, {String? defaultValue}) {
@@ -40,80 +30,48 @@ class GTStorageKV {
   /// [expireDurationInSecond] override the default duration setting from [enableAutoKeyExpire()]
   /// [expireDurationInSecond] 为 null 时，表示永不过期
   static void saveInt32(String key, int value, {int? expireDurationInSecond}) {
-    ABLogger.i(
-      "saveInt32 key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond",
-    );
-    _getDefaultMMKV()?.encodeInt32(
-      key,
-      value,
-      ABCacheUtils.checkExpireTime(expireDurationInSecond),
-    );
+    ABLogger.i("saveInt32 key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond");
+    _getDefaultMMKV()?.encodeInt32(key, value, ABCacheUtils.checkExpireTime(expireDurationInSecond));
   }
 
   static int queryInt32(String key, {int defaultValue = 0}) {
     ABLogger.i("queryInt32 key: ${ABCacheUtils.checkKey(key)}");
-    return _getDefaultMMKV()?.decodeInt32(key, defaultValue: defaultValue) ??
-        defaultValue;
+    return _getDefaultMMKV()?.decodeInt32(key, defaultValue: defaultValue) ?? defaultValue;
   }
 
   /// [expireDurationInSecond] override the default duration setting from [enableAutoKeyExpire()]
   /// [expireDurationInSecond] 为 null 时，表示永不过期
   static void saveInt(String key, int value, {int? expireDurationInSecond}) {
-    ABLogger.i(
-      "saveInt key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond",
-    );
-    _getDefaultMMKV()?.encodeInt(
-      key,
-      value,
-      ABCacheUtils.checkExpireTime(expireDurationInSecond),
-    );
+    ABLogger.i("saveInt key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond");
+    _getDefaultMMKV()?.encodeInt(key, value, ABCacheUtils.checkExpireTime(expireDurationInSecond));
   }
 
   static int queryInt(String key, {int defaultValue = 0}) {
-    return _getDefaultMMKV()?.decodeInt(key, defaultValue: defaultValue) ??
-        defaultValue;
+    return _getDefaultMMKV()?.decodeInt(key, defaultValue: defaultValue) ?? defaultValue;
   }
 
   /// [expireDurationInSecond] override the default duration setting from [enableAutoKeyExpire()]
   /// [expireDurationInSecond] 为 null 时，表示永不过期
-  static void saveDouble(
-    String key,
-    double value, {
-    int? expireDurationInSecond,
-  }) {
-    ABLogger.i(
-      "saveDouble key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond",
-    );
-    _getDefaultMMKV()?.encodeDouble(
-      key,
-      value,
-      ABCacheUtils.checkExpireTime(expireDurationInSecond),
-    );
+  static void saveDouble(String key, double value, {int? expireDurationInSecond}) {
+    ABLogger.i("saveDouble key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond");
+    _getDefaultMMKV()?.encodeDouble(key, value, ABCacheUtils.checkExpireTime(expireDurationInSecond));
   }
 
   static double queryDouble(String key, {double defaultValue = 0}) {
     ABLogger.i("queryDouble key: ${ABCacheUtils.checkKey(key)}");
-    return _getDefaultMMKV()?.decodeDouble(key, defaultValue: defaultValue) ??
-        defaultValue;
+    return _getDefaultMMKV()?.decodeDouble(key, defaultValue: defaultValue) ?? defaultValue;
   }
 
   /// [expireDurationInSecond] override the default duration setting from [enableAutoKeyExpire()]
   /// [expireDurationInSecond] 为 null 时，表示永不过期
   static void saveBool(String key, bool value, {int? expireDurationInSecond}) {
-    ABLogger.i(
-      "saveBool key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond",
-    );
-    _getDefaultMMKV()?.encodeBool(
-      key,
-      value,
-      ABCacheUtils.checkExpireTime(expireDurationInSecond),
-    );
+    ABLogger.i("saveBool key: ${ABCacheUtils.checkKey(key)}, expireDurationInSecond: $expireDurationInSecond");
+    _getDefaultMMKV()?.encodeBool(key, value, ABCacheUtils.checkExpireTime(expireDurationInSecond));
   }
 
   static bool queryBool(String key, {bool defaultValue = false}) {
     ABLogger.i("queryBool key: ${ABCacheUtils.checkKey(key)}");
-    return _getDefaultMMKV()?.decodeBool(key, defaultValue: defaultValue) ??
-        defaultValue;
+    return _getDefaultMMKV()?.decodeBool(key, defaultValue: defaultValue) ?? defaultValue;
   }
 
   /// 是否包含某个 Key

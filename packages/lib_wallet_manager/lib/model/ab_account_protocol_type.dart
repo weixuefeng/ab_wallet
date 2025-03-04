@@ -11,5 +11,22 @@ enum ABAccountProtocolType {
   final String protocolName;
   final int protocolIndex;
 
+  static ABAccountProtocolType fromIndex(int index) {
+    switch (index) {
+      case 0:
+        return bip44;
+      case 1:
+        return bip49;
+      case 2:
+        return bip84;
+      case 3:
+        return bip86;
+      case 4:
+        return cashAddress;
+      default:
+        throw ArgumentError('invalid protocol index');
+    }
+  }
+
   const ABAccountProtocolType(this.protocolName, this.protocolIndex);
 }

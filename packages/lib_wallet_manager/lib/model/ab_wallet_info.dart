@@ -16,4 +16,44 @@ class ABWalletInfo {
 
   /// wallet accounts
   late List<ABAccount> walletAccounts;
+
+  // encrypt string
+  late String encryptStr;
+
+  // construct
+  ABWalletInfo({
+    required this.walletId,
+    required this.walletIndex,
+    required this.walletName,
+    required this.walletType,
+    required this.walletAccounts,
+    required this.encryptStr,
+  });
+
+  @override
+  toString() {
+    return toJson().toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'walletId': walletId,
+      'walletIndex': walletIndex,
+      'walletName': walletName,
+      'walletType': walletType.typeIndex,
+      'walletAccounts': walletAccounts.map((e) => e.toJson()).toList(),
+      'encryptStr': encryptStr,
+    };
+  }
+
+  factory ABWalletInfo.fromJson(Map<String, dynamic> json) {
+    return ABWalletInfo(
+      walletId: json['walletId'],
+      walletIndex: json['walletIndex'],
+      walletName: json['walletName'],
+      walletType: ABWalletType.fromIndex(json['walletType']),
+      walletAccounts: (json['walletAccounts'] as List).map((e) => ABAccount.fromJson(e)).toList(),
+      encryptStr: json['encryptStr'],
+    );
+  }
 }
