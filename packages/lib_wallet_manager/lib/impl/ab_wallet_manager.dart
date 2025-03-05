@@ -166,7 +166,7 @@ class ABWalletManager extends ABWalletManagerInterface {
       accountDetailsMap: accountDetailsMap,
     );
     info.walletAccounts.add(account);
-    await ABWalletStorage.instance.saveWalletList(walletInfo: [info]);
+    await ABWalletStorage.instance.updateWalletInfo(walletInfo: info);
     return account;
   }
 
@@ -226,5 +226,29 @@ class ABWalletManager extends ABWalletManagerInterface {
   Future<bool> verifyWalletPassword({required ABWalletInfo walletInfo, required String password}) {
     // TODO: implement verifyWalletPassword
     throw UnimplementedError();
+  }
+
+  @override
+  Future<String> decryptWallet({
+    required ABWalletInfo walletInfo,
+    required String password,
+    required ABAccount account,
+    required int chainId,
+  }) async {
+    var secretKey = WalletMethodUtils.decryptAES(walletInfo.encryptStr, password);
+    if (walletInfo.walletType == ABWalletType.privateKey) {
+      return Future.value(secretKey);
+    }
+    ABAccountDetail? accountDetail = account.accountDetailsMap[chainId];
+    if (accountDetail == null) {
+      throw Exception("accountDetail is null");
+    }
+    int coinType = accountDetail.chainInfo.walletCoreCoinType;
+    var privateKey = await WalletMethod.instance.exportPrivateKeyByMnemonicAndType(
+      mnemonic: secretKey,
+      coinType: coinType,
+      index: account.index,
+    );
+    return Future.value(privateKey);
   }
 }

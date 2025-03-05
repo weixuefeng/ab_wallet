@@ -1,5 +1,4 @@
 import 'package:lib_wallet_manager/model/ab_account_detail.dart';
-import 'package:lib_web3_core/model/wallet_account_model.dart';
 
 typedef ChainId = int;
 

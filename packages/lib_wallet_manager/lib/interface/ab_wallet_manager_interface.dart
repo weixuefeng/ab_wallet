@@ -55,4 +55,11 @@ abstract class ABWalletManagerInterface {
 
   /// 验证钱包密码
   Future<bool> verifyWalletPassword({required ABWalletInfo walletInfo, required String password});
+
+  Future<String> decryptWallet({
+    required ABWalletInfo walletInfo,
+    required String password,
+    required ABAccount account,
+    required int chainId,
+  });
 }

@@ -14,4 +14,6 @@ abstract class ABWalletStorageInterface {
   Future<bool> updateWalletIndex({required int walletId, required int newIndex});
 
   Future<bool> updateWalletPassword({required int walletId, required String oldPassword, required String newPassword});
+
+  Future<bool> updateWalletInfo({required ABWalletInfo walletInfo});
 }

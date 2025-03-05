@@ -88,4 +88,16 @@ class ABWalletStorage extends ABWalletStorageInterface {
       rethrow;
     }
   }
+
+  @override
+  Future<bool> updateWalletInfo({required ABWalletInfo walletInfo}) async {
+    var wallets = await getAllWalletList();
+    var index = wallets.indexWhere((element) => element.flag == walletInfo.flag);
+    if (index == -1) {
+      throw "not found wallet info for ${walletInfo.walletName}";
+    }
+    wallets[index] = walletInfo;
+    await saveWalletList(walletInfo: wallets);
+    return true;
+  }
 }

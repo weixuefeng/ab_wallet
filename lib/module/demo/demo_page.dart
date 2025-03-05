@@ -7,7 +7,6 @@ import 'package:lib_base/lib_base.dart';
 import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_manager.dart';
-import 'package:lib_web3_core/impl/wallet_method_impl.dart';
 import 'package:lib_web3_core/utils/wallet_method_extension.dart';
 import 'package:lib_web3_core/utils/wallet_method_util.dart';
 
@@ -78,6 +77,23 @@ class DemoPage extends HookConsumerWidget {
     ABLogger.d(info.map((wallet) => wallet.toJson()).toList());
   }
 
+  void decryptWallet() async {
+    // 可以将当前钱包，当前账户设置到缓存里面，直接无需参数的进行解密
+    var wallet = await ABWalletManager.instance.getAllWalletInfos();
+    var privateKey = await ABWalletManager.instance.decryptWallet(
+      walletInfo: wallet[0],
+      password: "123456",
+      account: wallet[0].walletAccounts[1],
+      chainId: 1,
+    );
+    var secret = wallet[0].walletAccounts[1].accountDetailsMap[1]!.encryptedKey;
+    ABLogger.d("secret: $secret");
+    ABLogger.d(WalletMethodUtils.decryptAES(secret, "123456"));
+    ABLogger.d(privateKey);
+  }
+
+  void exportKeystore() async {}
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -91,6 +107,8 @@ class DemoPage extends HookConsumerWidget {
             ElevatedButton(onPressed: () => {getAllWallet()}, child: Text("获取全部钱包")),
             ElevatedButton(onPressed: () => {deleteWallet()}, child: Text("删除第一个钱包")),
             ElevatedButton(onPressed: () => {addAccountForWallet()}, child: Text("给助记词钱包添加账户")),
+            ElevatedButton(onPressed: () => {decryptWallet()}, child: Text("解密钱包")),
+            ElevatedButton(onPressed: () => {(exportKeystore())}, child: Text("导出 keystore")),
           ],
         ),
       ),

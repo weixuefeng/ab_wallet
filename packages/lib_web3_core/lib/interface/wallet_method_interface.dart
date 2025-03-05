@@ -48,4 +48,10 @@ abstract class WalletMethodInterface {
 
   /// 导出 keystore
   Future<String> exportKeysotreByPrivateKey({required String privateKeyHex, required String password});
+
+  Future<String> exportPrivateKeyByMnemonicAndType({
+    required String mnemonic,
+    required int coinType,
+    required int index,
+  });
 }

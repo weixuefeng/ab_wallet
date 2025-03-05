@@ -422,4 +422,17 @@ class WalletMethod extends WalletMethodInterface {
     model.extendKey(coinType);
     return Future.value(model);
   }
+
+  @override
+  Future<String> exportPrivateKeyByMnemonicAndType({
+    required String mnemonic,
+    required int coinType,
+    required int index,
+  }) {
+    var derivationPath = WalletMethodUtils.getDerivationPathByCoinType(coinType: coinType, index: index);
+    var hdWallet = HDWallet.createWithMnemonic(mnemonic);
+    var privateKey = hdWallet.getKey(coinType, derivationPath);
+    var res = hex.encode(privateKey.data());
+    return Future.value(res);
+  }
 }
