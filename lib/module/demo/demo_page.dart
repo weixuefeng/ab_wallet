@@ -62,10 +62,6 @@ class DemoPage extends HookConsumerWidget {
   void addAccountForWallet() async {
     FlutterTrustWalletCore.init();
     await ABStorageInitializer.setup();
-    var chainInfos = await MockAbChainManagerImpl.instance.getAllChainInfos();
-
-    var mnemonic = "tourist powder soccer travel lunch vast utility manual dog two measure office";
-    var coinType = TWCoinType.TWCoinTypeNewChain;
 
     var wallet = await ABWalletManager.instance.getAllWalletInfos();
     var account = await ABWalletManager.instance.addAcountForWallet(info: wallet[0], password: "123456");
