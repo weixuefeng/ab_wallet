@@ -86,7 +86,7 @@ class ABWalletManager extends ABWalletManagerInterface {
         derivationPath: walletModel.extendedPath,
         chainInfo: chainInfo,
         extendedPublicKey: walletModel.accountExtendedPublicKey,
-        encryptedKey: WalletMethodUtils.encryptAES(walletModel.accountPrivateKey, password),
+        // encryptedKey: WalletMethodUtils.encryptAES(walletModel.accountPrivateKey, password),
         protocolAccounts: _getProtocolAccounts(walletModel: walletModel),
       );
       // 构造 account detail map
@@ -156,7 +156,7 @@ class ABWalletManager extends ABWalletManagerInterface {
         derivationPath: walleModel.extendedPath,
         chainInfo: detail.chainInfo,
         extendedPublicKey: walleModel.accountExtendedPublicKey,
-        encryptedKey: WalletMethodUtils.encryptAES(walleModel.accountPrivateKey, password.toString()),
+        // encryptedKey: WalletMethodUtils.encryptAES(walleModel.accountPrivateKey, password.toString()),
         protocolAccounts: _getProtocolAccounts(walletModel: walleModel),
       );
     });

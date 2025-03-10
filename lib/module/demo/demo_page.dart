@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
+import 'package:force_wallet/utils/time_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
@@ -19,6 +20,7 @@ class DemoPage extends HookConsumerWidget {
     var chainInfos = await MockAbChainManagerImpl.instance.getAllChainInfos();
     var walletName = "钱包2";
     var password = "123456";
+    var start = nowTimeStamp();
     var mnemonic = HDWallet().mnemonic();
     var wallet = await ABWalletManager.instance.createWalletsByMnemonicAndCoinTypes(
       walletName: walletName,
@@ -26,7 +28,8 @@ class DemoPage extends HookConsumerWidget {
       mnemonic: mnemonic,
       chainInfos: chainInfos,
     );
-    ABLogger.d(wallet.toJson());
+    var end = nowTimeStamp();
+    ABLogger.d("time: ${end - start}");
   }
 
   void createPrivateKeyWallet() async {
@@ -82,7 +85,7 @@ class DemoPage extends HookConsumerWidget {
       account: wallet[0].walletAccounts[1],
       chainId: 1,
     );
-    var secret = wallet[0].walletAccounts[1].accountDetailsMap[1]!.encryptedKey;
+    var secret = wallet[0].encryptStr;
     ABLogger.d("secret: $secret");
     ABLogger.d(WalletMethodUtils.decryptAES(secret, "123456"));
     ABLogger.d(privateKey);

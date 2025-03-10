@@ -50,7 +50,29 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
         tokenType: ABTokenType.mainToken,
       ),
     );
-    return Future.value([eth, newchain]);
+    List<ABChainInfo> chains = [];
+    var chainNums = 1000;
+    for (int i = 0; i < chainNums; i++) {
+      var newchain = ABChainInfo(
+        chainId: i,
+        walletCoreCoinType: 1642,
+        chainName: 'NewChain',
+        chainType: ABChainType.other,
+        networkType: ABNetworkType.mainnet,
+        chainLogo: 'newlogo',
+        endpoints: ABChainEndpoints(rpcAddresses: [""]),
+        derivationPath: 'm/44\'/1642\'/0\'/0',
+        mainTokenInfo: ABTokenInfo(
+          tokenName: 'AB',
+          tokenSymbol: 'AB',
+          tokenDecimals: 18,
+          tokenLogo: "",
+          tokenType: ABTokenType.mainToken,
+        ),
+      );
+      chains.add(newchain);
+    }
+    return Future.value(chains);
   }
 
   @override
