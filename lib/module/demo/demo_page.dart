@@ -83,7 +83,7 @@ class DemoPage extends HookConsumerWidget {
     var privateKey = await ABWalletManager.instance.decryptWallet(
       walletInfo: wallet[0],
       password: "123456",
-      account: wallet[0].walletAccounts[1],
+      account: wallet[0].walletAccounts[0],
       chainId: 1,
     );
     var secret = wallet[0].encryptStr;
