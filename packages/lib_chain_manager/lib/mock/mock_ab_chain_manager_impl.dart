@@ -72,7 +72,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
       );
       chains.add(newchain);
     }
-    return Future.value(chains);
+    return Future.value([eth, newchain]);
   }
 
   @override

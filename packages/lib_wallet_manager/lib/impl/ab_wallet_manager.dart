@@ -6,6 +6,7 @@ import 'package:lib_wallet_manager/model/ab_account_detail.dart';
 import 'package:lib_wallet_manager/model/ab_protocol_account.dart';
 import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 import 'package:lib_wallet_manager/model/ab_wallet_type.dart';
+import 'package:lib_wallet_manager/utils/counter.dart';
 import 'package:lib_web3_core/impl/wallet_method_impl.dart';
 import 'package:lib_web3_core/model/wallet_account_model.dart';
 import 'package:lib_web3_core/utils/wallet_method_util.dart';
@@ -30,7 +31,7 @@ class ABWalletManager extends ABWalletManagerInterface {
       privateKeyHex: privateKey,
       coinType: chainInfo.walletCoreCoinType,
     );
-    ABWalletInfo walletInfo = await handleWalletModels(
+    ABWalletInfo walletInfo = await handleCreateWalletModels(
       walletModels: [walletModel],
       walletType: ABWalletType.privateKey,
       chainInfos: [chainInfo],
@@ -48,7 +49,7 @@ class ABWalletManager extends ABWalletManagerInterface {
     return protocolAccounts;
   }
 
-  Future<ABWalletInfo> handleWalletModels({
+  Future<ABWalletInfo> handleCreateWalletModels({
     required List<WalletAccountModel> walletModels,
     required String walletName,
     required String password,
@@ -57,7 +58,6 @@ class ABWalletManager extends ABWalletManagerInterface {
     required String secretKey,
   }) async {
     // check exist
-    var currentWalletList = await ABWalletStorage.instance.getAllWalletList();
     String flag = "";
     if (walletType == ABWalletType.mnemonic) {
       flag = WalletMethodUtils.walletFlag(secretKey);
@@ -69,13 +69,11 @@ class ABWalletManager extends ABWalletManagerInterface {
     } else {
       throw Exception("not support wallet type $walletType");
     }
-    var index = currentWalletList.indexWhere((element) => element.flag == flag);
-    if (index > -1) {
-      throw Exception("wallet already exist");
-    }
     // create new wallet
-    var walletId = await ABWalletStorage.instance.getWalletNextId();
-    var accountId = await ABWalletStorage.instance.getAccountNextId(walletId: walletId);
+    var walletId = await Counter.getWalletNextId();
+    var accountId = await Counter.getAccountNextId();
+    print("walletId: $walletId, accountId: $accountId");
+    var accountIndex = await Counter.getAccountNextIndex(walletId: walletId);
     Map<ChainId, ABAccountDetail> accountDetailsMap = {};
     for (int index = 0; index < walletModels.length; index++) {
       var walletModel = walletModels[index];
@@ -86,19 +84,21 @@ class ABWalletManager extends ABWalletManagerInterface {
         derivationPath: walletModel.extendedPath,
         chainInfo: chainInfo,
         extendedPublicKey: walletModel.accountExtendedPublicKey,
-        // encryptedKey: WalletMethodUtils.encryptAES(walletModel.accountPrivateKey, password),
         protocolAccounts: _getProtocolAccounts(walletModel: walletModel),
       );
       // 构造 account detail map
       accountDetailsMap[chainInfo.chainId] = accountDetail;
     }
     ABAccount account = ABAccount(
-      index: accountId,
-      accountName: "Account $accountId",
+      id: accountId,
+      walletId: walletId,
+      index: accountIndex,
+      accountName: "Account $accountIndex",
       accountDetailsMap: accountDetailsMap,
     );
     ABWalletInfo walletInfo = ABWalletInfo(
-      walletId: walletId,
+      id: walletId,
+      walletId: flag,
       walletIndex: walletId,
       walletName: walletName,
       walletType: walletType,
@@ -107,8 +107,7 @@ class ABWalletManager extends ABWalletManagerInterface {
       encryptStr: WalletMethodUtils.encryptAES(secretKey, password),
     );
     // save to local
-    currentWalletList.add(walletInfo);
-    ABWalletStorage.instance.saveWalletList(walletInfo: currentWalletList);
+    ABWalletStorage.instance.addWalletInfo(walletInfo: walletInfo);
     return walletInfo;
   }
 
@@ -124,7 +123,7 @@ class ABWalletManager extends ABWalletManagerInterface {
       mnemonic: mnemonic,
       coinTypes: coinTypes,
     );
-    var walletInfos = await handleWalletModels(
+    var walletInfos = await handleCreateWalletModels(
       chainInfos: chainInfos,
       walletModels: walletModels,
       walletName: walletName,
@@ -142,13 +141,15 @@ class ABWalletManager extends ABWalletManagerInterface {
 
   @override
   Future<ABAccount> addAcountForWallet({required ABWalletInfo info, required String password}) async {
-    var accountId = await ABWalletStorage.instance.getAccountNextId(walletId: info.walletId);
+    print(info.toJson());
+    var accountId = await Counter.getAccountNextId();
+    var accountIndex = await Counter.getAccountNextIndex(walletId: info.id);
     Map<ChainId, ABAccountDetail> accountDetailsMap = {};
     info.walletAccounts[0].accountDetailsMap.values.forEach((detail) async {
       WalletAccountModel walleModel = await WalletMethod.instance.createAccountsByExtenedPublicKey(
         extenedPublicKey: detail.extendedPublicKey,
         coinType: detail.chainInfo.walletCoreCoinType,
-        position: accountId,
+        position: accountIndex,
       );
       accountDetailsMap[detail.chainInfo.chainId] = ABAccountDetail(
         defaultAddress: walleModel.accountAddress,
@@ -156,17 +157,17 @@ class ABWalletManager extends ABWalletManagerInterface {
         derivationPath: walleModel.extendedPath,
         chainInfo: detail.chainInfo,
         extendedPublicKey: walleModel.accountExtendedPublicKey,
-        // encryptedKey: WalletMethodUtils.encryptAES(walleModel.accountPrivateKey, password.toString()),
         protocolAccounts: _getProtocolAccounts(walletModel: walleModel),
       );
     });
     ABAccount account = ABAccount(
-      index: accountId,
-      accountName: "Account $accountId",
+      id: accountId,
+      walletId: info.id,
+      index: accountIndex,
+      accountName: "Account $accountIndex",
       accountDetailsMap: accountDetailsMap,
     );
-    info.walletAccounts.add(account);
-    await ABWalletStorage.instance.updateWalletInfo(walletInfo: info);
+    await ABWalletStorage.instance.addAcountForWallet(walletInfo: info, accountInfo: account);
     return account;
   }
 

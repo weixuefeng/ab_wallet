@@ -28,6 +28,7 @@ class DemoPage extends HookConsumerWidget {
       mnemonic: mnemonic,
       chainInfos: chainInfos,
     );
+    ABLogger.d(wallet.toJson());
     var end = nowTimeStamp();
     ABLogger.d("time: ${end - start}");
   }
