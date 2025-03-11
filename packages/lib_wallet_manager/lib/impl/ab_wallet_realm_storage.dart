@@ -160,15 +160,18 @@ class ABWalletRealmStorage extends ABWalletStorageInterface {
   @override
   Future<bool> deleteWalletInfo({required ABWalletInfo walletInfo}) async {
     var realm = Realm(walletDBInfoConfig);
-    var walletDBInfo = realm.query<ABWalletDBInfo>("flag == '${walletInfo.flag}'");
-    if (walletDBInfo.isNotEmpty) {
-      realm.delete(walletDBInfo.first);
-      realm.close();
-      return true;
-    } else {
-      realm.close();
-      return false;
-    }
+    bool res = false;
+    realm.write(() {
+      var walletDBInfo = realm.query<ABWalletDBInfo>("flag == '${walletInfo.flag}'");
+      if (walletDBInfo.isNotEmpty) {
+        realm.delete(walletDBInfo.first);
+        res = true;
+      } else {
+        res = false;
+      }
+    });
+    realm.close();
+    return res;
   }
 
   @override
