@@ -596,6 +596,13 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  lib_web3_interaction:
+    dependency: "direct main"
+    description:
+      path: "packages/lib_web3_interaction"
+      relative: true
+    source: path
+    version: "0.0.1"
   lints:
     dependency: transitive
     description:

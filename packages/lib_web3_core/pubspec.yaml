@@ -24,7 +24,7 @@ dependencies:
     path: ../lib_base
   flutter_trust_wallet_core:
     path: ../flutter_trust_wallet_core
-  decimal: ^2.0.1
+  decimal: ^3.0.1
 
 dev_dependencies:
   flutter_test:
