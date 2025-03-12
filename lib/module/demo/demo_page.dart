@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
+import 'package:force_wallet/module/demo/demo_chain_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
@@ -93,6 +94,16 @@ class DemoPage extends HookConsumerWidget {
   }
 
   void exportKeystore() async {}
+  void toChainDemoPage(BuildContext context)  {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const DemoChainPage();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -109,6 +120,7 @@ class DemoPage extends HookConsumerWidget {
             ElevatedButton(onPressed: () => {addAccountForWallet()}, child: Text("给助记词钱包添加账户")),
             ElevatedButton(onPressed: () => {decryptWallet()}, child: Text("解密钱包")),
             ElevatedButton(onPressed: () => {(exportKeystore())}, child: Text("导出 keystore")),
+            ElevatedButton(onPressed: () => {(toChainDemoPage(context))}, child: Text("RPC方法测试")),
           ],
         ),
       ),

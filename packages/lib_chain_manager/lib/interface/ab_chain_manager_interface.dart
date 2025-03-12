@@ -5,6 +5,9 @@ abstract class ABChainManagerInterface {
   /// 获取所有链信息
   Future<List<ABChainInfo>> getAllChainInfos();
 
+  /// 获取所有缓存链信息
+  List<ABChainInfo> getCacheAllChainInfos();
+
   /// 设置当前选中的链信息
   Future<bool> setSelectedChainInfo(ABChainInfo info);
 

@@ -14,6 +14,8 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
     return instance;
   }
 
+  static final List<ABChainInfo>  networkInfoList= [];
+
   @override
   Future<List<ABChainInfo>> getAllChainInfos() {
     var eth = ABChainInfo(
@@ -23,11 +25,29 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
       chainType: ABChainType.ehtereum,
       networkType: ABNetworkType.mainnet,
       chainLogo: 'ethereum',
-      endpoints: ABChainEndpoints(rpcAddresses: [""]),
+      endpoints: ABChainEndpoints(rpcAddresses: ["https://eth.merkle.io"]),
       derivationPath: 'm/44\'/60\'/0\'/0',
+      evmChainId: 1,
       mainTokenInfo: ABTokenInfo(
         tokenName: 'ETH',
         tokenSymbol: 'ETH',
+        tokenDecimals: 18,
+        tokenLogo: "",
+        tokenType: ABTokenType.mainToken,
+      ),
+    ); var ethTest = ABChainInfo(
+      chainId: 2,
+      walletCoreCoinType: 60,
+      chainName: 'Sepolia',
+      chainType: ABChainType.sepolia,
+      networkType: ABNetworkType.testnet,
+      chainLogo: 'ethereum',
+      endpoints: ABChainEndpoints(rpcAddresses: ["https://blockchain.googleapis.com/v1/projects/gtwallet/locations/us-central1/endpoints/ethereum-sepolia/rpc?key=AIzaSyBPMN5sAeK7v5PODpz_cRG98lrdEAGZ_yQ"]),
+      derivationPath: 'm/44\'/60\'/0\'/0',
+      evmChainId: 11155111,
+      mainTokenInfo: ABTokenInfo(
+        tokenName: 'ETH',
+        tokenSymbol: 'SepoliaETH',
         tokenDecimals: 18,
         tokenLogo: "",
         tokenType: ABTokenType.mainToken,
@@ -50,7 +70,11 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
         tokenType: ABTokenType.mainToken,
       ),
     );
-    return Future.value([eth, newchain]);
+    networkInfoList.clear();
+    networkInfoList.add(eth);
+    networkInfoList.add(ethTest);
+    networkInfoList.add(newchain);
+    return Future.value([eth,ethTest, newchain]);
   }
 
   @override
@@ -75,5 +99,16 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
   Future<bool> setSelectedChainInfo(ABChainInfo info) {
     // TODO: implement setSelectedChainInfo
     throw UnimplementedError();
+  }
+
+  @override
+  List<ABChainInfo> getCacheAllChainInfos() {
+    if(networkInfoList.isNotEmpty){
+      return networkInfoList;
+    }else{
+      //TODO: 返回本地那份 此处为模拟代码
+      getAllChainInfos();
+      return networkInfoList;
+    }
   }
 }

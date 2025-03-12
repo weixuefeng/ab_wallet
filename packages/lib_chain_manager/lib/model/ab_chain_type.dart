@@ -11,7 +11,9 @@ enum ABChainType {
 
   tron('Tron', 5),
 
-  other('Other', 6);
+  other('Other', 6),
+
+  sepolia('Sepolia', 7);
 
   final String blockchainName;
 
@@ -35,6 +37,8 @@ enum ABChainType {
         return ABChainType.tron;
       case 6:
         return ABChainType.other;
+     case 7:
+        return ABChainType.sepolia;
       default:
         throw 'Unknown blockchain index: $index';
     }
