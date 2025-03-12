@@ -8,14 +8,15 @@ import 'package:lib_token_manager/lib_token_manager.dart';
 class MockAbChainManagerImpl extends ABChainManagerInterface {
   MockAbChainManagerImpl._internal();
 
-  static final MockAbChainManagerImpl instance = MockAbChainManagerImpl._internal();
+  static final MockAbChainManagerImpl instance =
+      MockAbChainManagerImpl._internal();
 
   factory MockAbChainManagerImpl() {
     return instance;
   }
 
   ///用于临时缓存
-  static final List<ABChainInfo>  networkInfoList= [];
+  static final List<ABChainInfo> networkInfoList = [];
 
   @override
   Future<List<ABChainInfo>> getAllChainInfos() {
@@ -36,14 +37,19 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
         tokenLogo: "",
         tokenType: ABTokenType.mainToken,
       ),
-    ); var ethTest = ABChainInfo(
+    );
+    var ethTest = ABChainInfo(
       chainId: 2,
       walletCoreCoinType: 60,
       chainName: 'Sepolia',
-      chainType: ABChainType.sepolia,
+      chainType: ABChainType.ehtereum,
       networkType: ABNetworkType.testnet,
       chainLogo: 'ethereum',
-      endpoints: ABChainEndpoints(rpcAddresses: ["https://blockchain.googleapis.com/v1/projects/gtwallet/locations/us-central1/endpoints/ethereum-sepolia/rpc?key=AIzaSyBPMN5sAeK7v5PODpz_cRG98lrdEAGZ_yQ"]),
+      endpoints: ABChainEndpoints(
+        rpcAddresses: [
+          "https://blockchain.googleapis.com/v1/projects/gtwallet/locations/us-central1/endpoints/ethereum-sepolia/rpc?key=AIzaSyBPMN5sAeK7v5PODpz_cRG98lrdEAGZ_yQ",
+        ],
+      ),
       derivationPath: 'm/44\'/60\'/0\'/0',
       evmChainId: 11155111,
       mainTokenInfo: ABTokenInfo(
@@ -98,8 +104,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
     networkInfoList.add(ethTest);
     networkInfoList.add(newchain);
     networkInfoList.addAll(chains);
-    return Future.value([eth,ethTest, newchain]);
-
+    return Future.value([eth, ethTest, newchain]);
   }
 
   @override
@@ -128,12 +133,23 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
 
   @override
   List<ABChainInfo> getCacheAllChainInfos() {
-    if(networkInfoList.isNotEmpty){
+    if (networkInfoList.isNotEmpty) {
       return networkInfoList;
-    }else{
+    } else {
       //TODO: 返回本地那份 此处为模拟代码
       getAllChainInfos();
       return networkInfoList;
     }
+  }
+
+  ///通过chainId查询网络信息
+  ABChainInfo? getChainInfoByChainId(int chainId) {
+    //TODO: 看是否需要将该方法加入ABChainManagerInterface中
+    for (var chainInfo in networkInfoList) {
+      if (chainId == chainInfo.chainId) {
+        return chainInfo;
+      }
+    }
+    return null;
   }
 }
