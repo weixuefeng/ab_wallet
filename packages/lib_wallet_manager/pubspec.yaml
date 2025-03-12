@@ -16,6 +16,7 @@ dependencies:
     path: ../lib_web3_core
   lib_storage:
     path: ../lib_storage
+  realm: ^20.0.1
 
 
 dev_dependencies:

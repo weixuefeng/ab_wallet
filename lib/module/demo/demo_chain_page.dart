@@ -81,18 +81,7 @@ class DemoChainPage extends HookConsumerWidget {
   }
 
   void decryptWallet() async {
-    // 可以将当前钱包，当前账户设置到缓存里面，直接无需参数的进行解密
-    var wallet = await ABWalletManager.instance.getAllWalletInfos();
-    var privateKey = await ABWalletManager.instance.decryptWallet(
-      walletInfo: wallet[0],
-      password: "123456",
-      account: wallet[0].walletAccounts[1],
-      chainId: 1,
-    );
-    var secret = wallet[0].walletAccounts[1].accountDetailsMap[1]!.encryptedKey;
-    ABLogger.d("secret: $secret");
-    ABLogger.d(WalletMethodUtils.decryptAES(secret, "123456"));
-    ABLogger.d(privateKey);
+
   }
 
   void exportKeystore() async {}

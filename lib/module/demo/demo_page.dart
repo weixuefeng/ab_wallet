@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
 import 'package:force_wallet/module/demo/demo_chain_page.dart';
+import 'package:force_wallet/utils/time_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
@@ -20,6 +21,7 @@ class DemoPage extends HookConsumerWidget {
     var chainInfos = await MockAbChainManagerImpl.instance.getAllChainInfos();
     var walletName = "钱包2";
     var password = "123456";
+    var start = nowTimeStamp();
     var mnemonic = HDWallet().mnemonic();
     var wallet = await ABWalletManager.instance.createWalletsByMnemonicAndCoinTypes(
       walletName: walletName,
@@ -28,6 +30,8 @@ class DemoPage extends HookConsumerWidget {
       chainInfos: chainInfos,
     );
     ABLogger.d(wallet.toJson());
+    var end = nowTimeStamp();
+    ABLogger.d("time: ${end - start}");
   }
 
   void createPrivateKeyWallet() async {
@@ -63,10 +67,6 @@ class DemoPage extends HookConsumerWidget {
   void addAccountForWallet() async {
     FlutterTrustWalletCore.init();
     await ABStorageInitializer.setup();
-    var chainInfos = await MockAbChainManagerImpl.instance.getAllChainInfos();
-
-    var mnemonic = "tourist powder soccer travel lunch vast utility manual dog two measure office";
-    var coinType = TWCoinType.TWCoinTypeNewChain;
 
     var wallet = await ABWalletManager.instance.getAllWalletInfos();
     var account = await ABWalletManager.instance.addAcountForWallet(info: wallet[0], password: "123456");
@@ -84,10 +84,10 @@ class DemoPage extends HookConsumerWidget {
     var privateKey = await ABWalletManager.instance.decryptWallet(
       walletInfo: wallet[0],
       password: "123456",
-      account: wallet[0].walletAccounts[1],
+      account: wallet[0].walletAccounts[0],
       chainId: 1,
     );
-    var secret = wallet[0].walletAccounts[1].accountDetailsMap[1]!.encryptedKey;
+    var secret = wallet[0].encryptStr;
     ABLogger.d("secret: $secret");
     ABLogger.d(WalletMethodUtils.decryptAES(secret, "123456"));
     ABLogger.d(privateKey);

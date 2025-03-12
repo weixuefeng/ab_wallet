@@ -40,6 +40,7 @@ dependencies:
     path: ./packages/lib_web3_core
   lib_web3_interaction:
     path: ./packages/lib_web3_interaction
+  realm: ^20.0.1
 dev_dependencies:
   flutter_test:
     sdk: flutter

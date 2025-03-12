@@ -1,0 +1,46 @@
+PODS:
+  - Flutter (1.0.0)
+  - flutter_trust_wallet_core (0.0.1):
+    - Flutter
+  - MMKV (2.1.0):
+    - MMKVCore (~> 2.1.0)
+  - mmkv_ios (2.1.0):
+    - Flutter
+    - MMKV (< 2.2, >= 2.1.0)
+  - MMKVCore (2.1.1)
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - flutter_trust_wallet_core (from `.symlinks/plugins/flutter_trust_wallet_core/ios`)
+  - mmkv_ios (from `.symlinks/plugins/mmkv_ios/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - MMKV
+    - MMKVCore
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  flutter_trust_wallet_core:
+    :path: ".symlinks/plugins/flutter_trust_wallet_core/ios"
+  mmkv_ios:
+    :path: ".symlinks/plugins/mmkv_ios/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_trust_wallet_core: 4bab1deabd85c652b683216ced510ad82e12c0ed
+  MMKV: ce484c1ac40bf76d5f09a0195d2ec5b3d3840d55
+  mmkv_ios: 7bdd84d31a58528c7a09923c5cde88ee00460fd9
+  MMKVCore: 1eb661c6c498ab88e3df9ce5d8ff94d05fcc0567
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+
+PODFILE CHECKSUM: 251cb053df7158f337c0712f2ab29f4e0fa474ce
+
+COCOAPODS: 1.12.1

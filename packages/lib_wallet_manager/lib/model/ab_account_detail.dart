@@ -11,9 +11,6 @@ class ABAccountDetail {
   /// 衍生路径
   late String derivationPath;
 
-  /// 加密密钥
-  late String encryptedKey;
-
   // 扩展公钥
   late String extendedPublicKey;
 
@@ -31,7 +28,6 @@ class ABAccountDetail {
     required this.defaultAddress,
     required this.derivationPath,
     required this.chainInfo,
-    required this.encryptedKey,
     required this.extendedPublicKey,
     this.protocolAccounts,
   });
@@ -41,7 +37,6 @@ class ABAccountDetail {
       'defaultPublicKey': defaultPublicKey,
       'defaultAddress': defaultAddress,
       'derivationPath': derivationPath,
-      'encryptKey': encryptedKey,
       'extendedPublicKey': extendedPublicKey,
       'chainInfo': chainInfo.toJson(),
       'protocolAccounts': protocolAccounts?.map((e) => e.toJson()).toList(),
@@ -53,7 +48,6 @@ class ABAccountDetail {
       defaultPublicKey: json['defaultPublicKey'],
       defaultAddress: json['defaultAddress'],
       derivationPath: json['derivationPath'],
-      encryptedKey: json['encryptKey'],
       chainInfo: ABChainInfo.fromJson(json['chainInfo']),
       extendedPublicKey: json['extendedPublicKey'] ?? '',
       protocolAccounts:
