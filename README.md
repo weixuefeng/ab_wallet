@@ -83,8 +83,26 @@ TODO://
 
 ### `lib_wallet_manager`: 钱包管理 
 
-### 钱包数据库结构
+### 当前工作
 
-| Field | Type | Desc | 
-|:-:|:-:|:-:|
-| ||
+- [ ] pod 库打包 @james
+- [ ] aar 发布 @pony
+- [ ] 自动化构建 @pony, @james
+- [ ] 基础 ui 框架搭建 @james
+- [ ] 状态管理 @james
+- [ ] 路由管理 @ahan
+- [ ] 多语言支持 @ahan
+- [ ] 暗色模式 @ahan @james
+- [ ] 通知模块 @james
+- [ ] 钱包管理 @pony
+- [ ] 链管理 @pony
+- [ ] 代币管理 @pony
+- [ ] 网络管理 @pony
+- [ ] 交易记录模块 @ahan
+- [ ] wallet connect @pony
+- [ ] deepLink @pony 
+- [ ] DApp 模块 @pony
+- [ ] 法币计价 
+- [ ] 数据埋点 @ahan
+- [ ] 数据库迁移方案 @pony
+- [ ] 
