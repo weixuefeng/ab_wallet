@@ -25,7 +25,6 @@ final class ABWeb3EVMChainImpl extends ABEVMChains  with IABWeb3Network{
   Future<EVMChainMethod> getRpcMethod() async {
    String rpc =  await rpcAddress();
     _method ??= EVMChainMethod(rpc);
-
     ABLogger.e('当前rpc地址：$rpc');
     return _method!;
   }

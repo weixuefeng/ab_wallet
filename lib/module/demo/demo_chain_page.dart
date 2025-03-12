@@ -45,7 +45,6 @@ class DemoChainPage extends HookConsumerWidget {
   void getCoinBalance() async {
     initCore();
 
-
     MockLibABWeb3CoreModuleImpl.instance.getWeb3Network(
       networkId: ethTestNetworkId,
     );
@@ -54,7 +53,7 @@ class DemoChainPage extends HookConsumerWidget {
 
     ABLogger.e('$TAG:当前chainId--->${abWeb3Chain.networkId}');
 
-    var chainInfos = await MockAbChainManagerImpl.instance.getCacheAllChainInfos();
+    var chainInfos =  MockAbChainManagerImpl.instance.getCacheAllChainInfos();
 
     var balance = await abWeb3Chain.balance(address: evmAddress);
 

@@ -1,5 +1,6 @@
 
 import 'package:lib_web3_core/lib_web3_core.dart';
+import 'package:lib_web3_core/test/evm_test.dart';
 import 'package:lib_web3_interaction/chains/evm/evm_impl.dart';
 import 'package:lib_web3_interaction/chains/rpc/rpc_address_provider.dart';
 import 'package:lib_web3_interaction/chains/solana/solana_impl.dart';
@@ -16,9 +17,9 @@ final class ABWeb3CoreModuleImpl extends ABWeb3CoreModule{
   }
 
   @override
-  Future<void> debug() {
-    // TODO: implement debug
-    throw UnimplementedError();
+  Future<void> debug() async {
+    // TODO: 测试方法可以放在lib_web3_interaction中
+    EvmTest().test();
   }
 
   @override
