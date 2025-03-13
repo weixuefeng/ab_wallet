@@ -15,7 +15,7 @@ final class ABWeb3CoreModuleImpl extends ABWeb3CoreModule {
     switch (chainInfo.chainType) {
       case ABChainType.ehtereum:
         return ABWeb3EVMNetworkImpl(chainInfo: chainInfo);
-      case ABChainType.other:
+      case ABChainType.newchain:
         return ABWeb3EVMNetworkImpl(chainInfo: chainInfo);
       default:
         throw "unSupport exception";

@@ -153,7 +153,7 @@ final class ABWeb3EVMNetworkImpl extends ABWeb3EVMNetwork with IABWeb3Network {
         tx.to,
         privateKeySigner.privateKey,
         tx.data,
-        60,
+        mChainInfo.walletCoreCoinType,
       );
       // 多条签名，nonce自增1
       initNonce += 1;
