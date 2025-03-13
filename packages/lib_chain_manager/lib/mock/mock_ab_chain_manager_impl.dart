@@ -8,8 +8,7 @@ import 'package:lib_token_manager/lib_token_manager.dart';
 class MockAbChainManagerImpl extends ABChainManagerInterface {
   MockAbChainManagerImpl._internal();
 
-  static final MockAbChainManagerImpl instance =
-      MockAbChainManagerImpl._internal();
+  static final MockAbChainManagerImpl instance = MockAbChainManagerImpl._internal();
 
   factory MockAbChainManagerImpl() {
     return instance;
@@ -64,7 +63,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
       chainId: 2,
       walletCoreCoinType: 1642,
       chainName: 'NewChain',
-      chainType: ABChainType.other,
+      chainType: ABChainType.newchain,
       networkType: ABNetworkType.mainnet,
       chainLogo: 'newlogo',
       endpoints: ABChainEndpoints(rpcAddresses: [""]),
@@ -84,7 +83,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
         chainId: i,
         walletCoreCoinType: 1642,
         chainName: 'NewChain',
-        chainType: ABChainType.other,
+        chainType: ABChainType.newchain,
         networkType: ABNetworkType.mainnet,
         chainLogo: 'newlogo',
         endpoints: ABChainEndpoints(rpcAddresses: [""]),
