@@ -5,9 +5,16 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_manager.dart';
+import 'package:lib_wallet_manager/model/ab_account.dart';
+import 'package:lib_wallet_manager/model/ab_account_detail.dart';
+import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 import 'package:lib_web3_chain_interact/base/i_ab_web3_core_module.dart';
 import 'package:lib_web3_chain_interact/chains/impl/networks/evm/evm.dart';
+import 'package:lib_web3_chain_interact/chains/interface/networks/evm.dart';
 import 'package:lib_web3_chain_interact/lib_web3_chain_interact.dart';
+import 'package:lib_web3_chain_interact/signer/signer.dart';
+import 'package:lib_web3_core/utils/wallet_method_extension.dart';
+import 'package:lib_web3_core/utils/wallet_method_util.dart';
 
 class DemoChainPage extends HookConsumerWidget {
   const DemoChainPage({super.key});
@@ -59,9 +66,37 @@ class DemoChainPage extends HookConsumerWidget {
 
   void addAccountForWallet() async {}
 
-  void getAllWallet() async {
-    var info = await ABWalletManager.instance.getAllWalletInfos();
-    ABLogger.d(info.map((wallet) => wallet.toJson()).toList());
+  void transferETHTest() async {
+    initCore();
+    List<ABWalletInfo> walletList = await ABWalletManager.instance.getAllWalletInfos();
+    ABWalletInfo wallet = walletList.first;
+    ABAccount account = wallet.walletAccounts.first;
+    var chainInfo = MockAbChainManagerImpl.instance.ab;
+    ABAccountDetail accountDetail = account.accountDetailsMap[chainInfo.chainId]!;
+    var to = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
+    ABWeb3EVMNetworkImpl abWeb3Chain = await ABWeb3CoreModule.instance.getWeb3Network(chainInfo: chainInfo);
+    var balance = await abWeb3Chain.getBalance(address: accountDetail.defaultAddress);
+    ABLogger.d("balance: $balance");
+    ABWeb3EVMTransaction tx = await abWeb3Chain.buildTransferTx(
+      from: accountDetail.defaultAddress,
+      to: to,
+      amount: BigInt.from(1),
+    );
+    ABLogger.d("tx: ${tx.toString()}");
+    var gas = await abWeb3Chain.estimateGas(tx: tx);
+    ABLogger.d("gas: $gas");
+    var privateKey = await ABWalletManager.instance.decryptWallet(
+      walletInfo: wallet,
+      password: "123456",
+      account: account,
+      chainId: chainInfo.chainId,
+    );
+    ABLogger.d("privateKey: ${privateKey.toString()}");
+    var signer = ABWeb3Signer.fromPrivateKey(privateKey);
+    var txs = await abWeb3Chain.signTxs(txs: [tx], signer: signer);
+    ABLogger.d(txs[0].signedRaw);
+    var res = await abWeb3Chain.sendTxs(txs: txs);
+    ABLogger.d(res.first.hash);
   }
 
   void decryptWallet() async {}
@@ -79,7 +114,7 @@ class DemoChainPage extends HookConsumerWidget {
             ElevatedButton(onPressed: () => {getCoinBalance()}, child: Text("获取主代币余额")),
             ElevatedButton(onPressed: () => {getContractTokenBalance()}, child: Text("获取20代币余额")),
             ElevatedButton(onPressed: () => {addAccountForWallet()}, child: Text("预估gas费")),
-            ElevatedButton(onPressed: () => {getAllWallet()}, child: Text("构建主代币交易")),
+            ElevatedButton(onPressed: () => {transferETHTest()}, child: Text("构建主代币交易")),
             ElevatedButton(onPressed: () => {deleteWallet()}, child: Text("构建合约代币交易")),
             ElevatedButton(onPressed: () => {(exportKeystore())}, child: Text("构建EIP4844交易")),
             ElevatedButton(onPressed: () => {decryptWallet()}, child: Text("签名交易")),

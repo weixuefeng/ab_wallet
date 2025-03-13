@@ -106,10 +106,10 @@ abstract class ABWeb3EVMNetwork {
   /// return 手续费
   Future<BigInt> estimateGas({required ABWeb3EVMTransaction tx});
 
-  // /// 签名交易
-  // /// [tx] 交易
-  // /// return 签名后的交易
-  // Future<ABWeb3EVMSignedTransaction> signTx(ABWeb3EVMTransaction tx);
+  /// 签名交易
+  /// [tx] 交易
+  /// return 签名后的交易
+  Future<ABWeb3EVMSignedTransaction> signTx({required ABWeb3EVMTransaction tx, required ABWeb3Signer signer});
 
   /// 构建未签名交易
   /// [txs] 交易列表

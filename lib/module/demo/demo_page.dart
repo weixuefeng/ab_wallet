@@ -23,14 +23,15 @@ class DemoPage extends HookConsumerWidget {
     var walletName = "钱包2";
     var password = "123456";
     var start = nowTimeStamp();
-    var mnemonic = HDWallet().mnemonic();
-    var wallet = await ABWalletManager.instance
-        .createWalletsByMnemonicAndCoinTypes(
-          walletName: walletName,
-          password: password,
-          mnemonic: mnemonic,
-          chainInfos: chainInfos,
-        );
+    var mnemonic = "office final light crunch math photo broccoli poet congress view head square";
+    // HDWallet().mnemonic();
+    ABLogger.d("mnemonic: $mnemonic");
+    var wallet = await ABWalletManager.instance.createWalletsByMnemonicAndCoinTypes(
+      walletName: walletName,
+      password: password,
+      mnemonic: mnemonic,
+      chainInfos: chainInfos,
+    );
     ABLogger.d(wallet.toJson());
     var end = nowTimeStamp();
     ABLogger.d("time: ${end - start}");
@@ -102,7 +103,10 @@ class DemoPage extends HookConsumerWidget {
   }
 
   void exportKeystore() async {}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 65955fb (feat: add android eth transfer test)
   void toChainDemoPage(BuildContext context) {
     Navigator.push(
       context,
