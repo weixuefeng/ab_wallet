@@ -1,0 +1,28 @@
+name: lib_web3_chain_interact
+description: "A new Flutter package project."
+version: 0.0.1
+homepage:
+
+environment:
+  sdk: ^3.7.0-323.0.dev
+  flutter: ">=1.17.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  lib_base:
+    path: ../lib_base
+  lib_web3_core:
+    path: ../lib_web3_core
+  lib_chain_manager:
+    path: ../lib_chain_manager
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+
+flutter:
+
+ 

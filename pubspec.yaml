@@ -38,8 +38,8 @@ dependencies:
     path: ./packages/flutter_trust_wallet_core
   lib_web3_core:
     path: ./packages/lib_web3_core
-  lib_web3_interaction:
-    path: ./packages/lib_web3_interaction
+  lib_web3_chain_interact:
+    path: ./packages/lib_web3_chain_interact
   realm: ^20.0.1
   # internationalization
   flutter_localizations:
