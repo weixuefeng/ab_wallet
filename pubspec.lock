@@ -589,17 +589,17 @@ packages:
       relative: true
     source: path
     version: "0.0.1"
+  lib_web3_chain_interact:
+    dependency: "direct main"
+    description:
+      path: "packages/lib_web3_chain_interact"
+      relative: true
+    source: path
+    version: "0.0.1"
   lib_web3_core:
     dependency: "direct main"
     description:
       path: "packages/lib_web3_core"
-      relative: true
-    source: path
-    version: "0.0.1"
-  lib_web3_interaction:
-    dependency: "direct main"
-    description:
-      path: "packages/lib_web3_interaction"
       relative: true
     source: path
     version: "0.0.1"

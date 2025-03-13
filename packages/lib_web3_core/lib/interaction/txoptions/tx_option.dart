@@ -1,7 +1,4 @@
-
-
 abstract class ABWeb3ChainBuildTxOptions {
-
   const ABWeb3ChainBuildTxOptions();
 
   /// TON网络构建交易参数
