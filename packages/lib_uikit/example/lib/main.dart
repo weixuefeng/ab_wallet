@@ -146,24 +146,29 @@ class _HomeScreenState extends State<HomeScreen> {
                 ABPrimaryButton(
                   text: 'Show Bottom Toast',
                   onPressed: () {
-                    ABCustomToast.show(
-                      context: context,
-                      message: 'This is a bottom toast!',
-                      position: ToastPosition.bottom,
+                    ABToast().showToast(
+                      context,
+                      ToastLevel.success,
+                      "This is a success toast!",
                     );
+                    // ABCustomToast.show(
+                    //   context: context,
+                    //   message: 'This is a bottom toast!',
+                    //   position: ToastPosition.bottom,
+                    // );
                   },
                 ),
                 const SizedBox(height: 20),
-                ABPrimaryButton(
-                  text: 'Show Top Toast',
-                  onPressed: () {
-                    ABCustomToast.show(
-                      context: context,
-                      message: 'This is a top toast!',
-                      position: ToastPosition.top,
-                    );
-                  },
-                ),
+                // ABPrimaryButton(
+                //   text: 'Show Top Toast',
+                //   onPressed: () {
+                //     ABCustomToast.show(
+                //       context: context,
+                //       message: 'This is a top toast!',
+                //       position: ToastPosition.top,
+                //     );
+                //   },
+                // ),
                 ABPrimaryButton(
                   text: _isLoading ? 'Hide Loading' : 'Show Loading',
                   onPressed: _toggleLoading,

@@ -5,7 +5,7 @@ import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
-import 'package:lib_uikit/toast/ab_toast_overlay.dart';
+import 'package:lib_uikit/lib_uikit.dart';
 
 class DemoSettingPage extends HookConsumerWidget {
   const DemoSettingPage({super.key});
@@ -23,12 +23,12 @@ class DemoSettingPage extends HookConsumerWidget {
 
     void setLanguageEn() async {
       localeNotifier.changeLocale(Locale.fromSubtags(languageCode: 'en'));
-      toSaveLocal(locale:Locale.fromSubtags(languageCode: 'en'));
+      toSaveLocal(locale: Locale.fromSubtags(languageCode: 'en'));
     }
 
     void setLanguageZh() async {
       localeNotifier.changeLocale(Locale.fromSubtags(languageCode: 'zh'));
-      toSaveLocal(locale:Locale.fromSubtags(languageCode: 'zh'));
+      toSaveLocal(locale: Locale.fromSubtags(languageCode: 'zh'));
     }
 
     void setDisplayMode() async {
@@ -38,7 +38,7 @@ class DemoSettingPage extends HookConsumerWidget {
     setLanguageFollowSystem(Locale systemLocale) {
       if (ABWalletS.delegate.supportedLocales.contains(systemLocale)) {
         localeNotifier.changeLocale(systemLocale);
-        toSaveLocal(locale:systemLocale,isSystemLocale: true);
+        toSaveLocal(locale: systemLocale, isSystemLocale: true);
       } else {
         ABToast().showToast(
           context,
@@ -89,11 +89,15 @@ class DemoSettingPage extends HookConsumerWidget {
 
   //存储当前语言到本地
   void toSaveLocal({required Locale locale, bool isSystemLocale = false}) {
-    ABStorageKV.saveString(LocaleStorageKeys.abLocaleKey, isSystemLocale ? LocaleStorageKeys.abLocaleSysValue : locale.toString());
+    ABStorageKV.saveString(
+      LocaleStorageKeys.abLocaleKey,
+      isSystemLocale ? LocaleStorageKeys.abLocaleSysValue : locale.toString(),
+    );
   }
 
   //存储当前主题到本地
-  void toSaveTheme({required ThemeMode themeMode, bool isSystemTheme = false}) {
-
-  }
+  void toSaveTheme({
+    required ThemeMode themeMode,
+    bool isSystemTheme = false,
+  }) {}
 }
