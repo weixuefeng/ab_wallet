@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
+import 'package:force_wallet/common/app_initializer.dart';
 import 'package:force_wallet/generated/l10n.dart';
 import 'package:force_wallet/module/demo/demo_page.dart';
+import 'package:force_wallet/module/home/home_page.dart';
+import 'package:force_wallet/providers/initialize_provider.dart';
 import 'package:force_wallet/providers/theme_provider.dart';
+import 'package:force_wallet/utils/app_set_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/provider/ab_navigator_provider.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
@@ -14,49 +18,26 @@ import 'package:intl/intl.dart';
 import 'providers/locale_provider.dart';
 
 Future<void> main() async {
-  runApp(ProviderScope(child: const MyApp()));
-}
+  ///Centralized management of initialization logic
+  await AppInitializer.initialize();
 
-@riverpod
-String helloWorld(Ref ref) {
-  return 'Hello World';
+  ///Start Application
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    /// Global language state management
     final locale = ref.watch(localeProvider);
+    /// Global theme state management
     final themeMode = ref.watch(themeProvider);
-    final themeNotifier = ref.read(themeProvider.notifier);
+    /// Libraries states management that needs to be loaded before going to the home page
+    final initialization = ref.watch(initializationProvider);
 
-    final counter = useState(0);
-
-    ///
-
-
-
-    /// default language is en (it well be input utils folder).
-    Locale currentLocal = Locale.fromSubtags(languageCode: 'en');
-    String? localeLanguage = ABStorageKV.queryString(
-      LocaleStorageKeys.abLocaleKey,
-    );
-    if (localeLanguage == LocaleStorageKeys.abLocaleSysValue) {
-      Locale sysLocal = Localizations.localeOf(context);
-      if (ABWalletS.delegate.supportedLocales.contains(sysLocal)) {
-        currentLocal = sysLocal;
-      }
-    } else {
-      currentLocal = Locale.fromSubtags(languageCode: localeLanguage ?? 'en');
-    }
-    ABWalletS.load(currentLocal);
-
-    // final String value = ref.watch(greetingProvider);
     return MaterialApp(
-      title: ABWalletS.current.ab_home_home_page,
       navigatorKey: ABNavigatorProvider.navigatorKey,
       themeMode: themeMode,
       theme: ThemeData.light(),
@@ -77,58 +58,22 @@ class MyApp extends HookConsumerWidget {
         }
         return supportedLocales.first;
       },
-      home: MyHomePage(title: ABWalletS.current.ab_home_home_page),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() async {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return const DemoPage();
+      home: initialization.when(
+        data: (_) {
+          AppSetUtils.appSetting(context: context);
+          return HomePage(title: ABWalletS.current.ab_home_home_page);
+        },
+        error: (error, stack) {
+          return Scaffold(
+            body: Center(child: Text('error page，developing...')),
+          );
+        },
+        loading: () {
+          return Scaffold(
+            body: Center(child: Text('loading page，developing...')),
+          );
         },
       ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(ABWalletS.current.ab_home_home_page),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

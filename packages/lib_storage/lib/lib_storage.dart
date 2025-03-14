@@ -28,6 +28,9 @@ class ABStorageInitializer {
 
     final initedRootDir = await MMKV.initialize(rootDir: rootDir);
     ABLogger.i("MMKV flutter initedRootDir: $initedRootDir");
+    if (initedRootDir == null || initedRootDir.isEmpty) {
+      throw StateError("MMKV initialization failed: rootDir is null or empty.");
+    }
   }
 
   /// 获取存储加密 Key
