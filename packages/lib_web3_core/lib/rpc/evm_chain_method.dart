@@ -86,7 +86,9 @@ class EVMChainMethod {
       maxFeePerGas: maxFeePerGasAmount,
       data: data,
     );
-    return limit * BigInt.from(12) ~/ BigInt.from(10);
+    return limit;
+    // 有需要再打开，充分测试
+    // return limit * BigInt.from(12) ~/ BigInt.from(10);
   }
 
   Future<BigInt> estimateGas({

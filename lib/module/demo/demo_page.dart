@@ -23,14 +23,15 @@ class DemoPage extends HookConsumerWidget {
     var walletName = "钱包2";
     var password = "123456";
     var start = nowTimeStamp();
-    var mnemonic = HDWallet().mnemonic();
-    var wallet = await ABWalletManager.instance
-        .createWalletsByMnemonicAndCoinTypes(
-          walletName: walletName,
-          password: password,
-          mnemonic: mnemonic,
-          chainInfos: chainInfos,
-        );
+    var mnemonic = "office final light crunch math photo broccoli poet congress view head square";
+    // HDWallet().mnemonic();
+    ABLogger.d("mnemonic: $mnemonic");
+    var wallet = await ABWalletManager.instance.createWalletsByMnemonicAndCoinTypes(
+      walletName: walletName,
+      password: password,
+      mnemonic: mnemonic,
+      chainInfos: chainInfos,
+    );
     ABLogger.d(wallet.toJson());
     var end = nowTimeStamp();
     ABLogger.d("time: ${end - start}");
@@ -43,13 +44,12 @@ class DemoPage extends HookConsumerWidget {
     var walletName = "钱包4";
     var password = "123456";
     var mnemonic = HDWallet().getKeyForCoin(60).data().toHex();
-    var wallet = await ABWalletManager.instance
-        .createWalletByPrivateKeyAndCoinType(
-          walletName: walletName,
-          password: password,
-          privateKey: mnemonic,
-          chainInfo: chainInfos[0],
-        );
+    var wallet = await ABWalletManager.instance.createWalletByPrivateKeyAndCoinType(
+      walletName: walletName,
+      password: password,
+      privateKey: mnemonic,
+      chainInfo: chainInfos[0],
+    );
     ABLogger.d(wallet.toJson());
   }
 
@@ -62,9 +62,7 @@ class DemoPage extends HookConsumerWidget {
       ABLogger.d("wallet is empty");
       return;
     }
-    var deleted = await ABWalletManager.instance.deleteWallet(
-      walletInfo: info[0],
-    );
+    var deleted = await ABWalletManager.instance.deleteWallet(walletInfo: info[0]);
     info = await ABWalletManager.instance.getAllWalletInfos();
     ABLogger.d("after wallet length: ${info.length}  deleted: ${deleted}");
   }
@@ -74,10 +72,7 @@ class DemoPage extends HookConsumerWidget {
     await ABStorageInitializer.setup();
 
     var wallet = await ABWalletManager.instance.getAllWalletInfos();
-    var account = await ABWalletManager.instance.addAcountForWallet(
-      info: wallet[0],
-      password: "123456",
-    );
+    var account = await ABWalletManager.instance.addAcountForWallet(info: wallet[0], password: "123456");
     ABLogger.d(account.toJson());
   }
 
@@ -102,7 +97,6 @@ class DemoPage extends HookConsumerWidget {
   }
 
   void exportKeystore() async {}
-
   void toChainDemoPage(BuildContext context) {
     Navigator.push(
       context,
@@ -128,50 +122,20 @@ class DemoPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Demo Page"),
-      ),
+      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text("Demo Page")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ElevatedButton(
-              onPressed: () => {createMnemonicWallet()},
-              child: Text("创建助记词钱包"),
-            ),
-            ElevatedButton(
-              onPressed: () => {createPrivateKeyWallet()},
-              child: Text("创建私钥钱包"),
-            ),
-            ElevatedButton(
-              onPressed: () => {getAllWallet()},
-              child: Text("获取全部钱包"),
-            ),
-            ElevatedButton(
-              onPressed: () => {deleteWallet()},
-              child: Text("删除第一个钱包"),
-            ),
-            ElevatedButton(
-              onPressed: () => {addAccountForWallet()},
-              child: Text("给助记词钱包添加账户"),
-            ),
-            ElevatedButton(
-              onPressed: () => {decryptWallet()},
-              child: Text("解密钱包"),
-            ),
-            ElevatedButton(
-              onPressed: () => {(exportKeystore())},
-              child: Text("导出 keystore"),
-            ),
-            ElevatedButton(
-              onPressed: () => {(toChainDemoPage(context))},
-              child: Text("RPC方法测试"),
-            ),
-            ElevatedButton(
-              onPressed: () => {(toSettingDemoPage(context))},
-              child: Text("Setting测试"),
-            ),
+            ElevatedButton(onPressed: () => {createMnemonicWallet()}, child: Text("创建助记词钱包")),
+            ElevatedButton(onPressed: () => {createPrivateKeyWallet()}, child: Text("创建私钥钱包")),
+            ElevatedButton(onPressed: () => {getAllWallet()}, child: Text("获取全部钱包")),
+            ElevatedButton(onPressed: () => {deleteWallet()}, child: Text("删除第一个钱包")),
+            ElevatedButton(onPressed: () => {addAccountForWallet()}, child: Text("给助记词钱包添加账户")),
+            ElevatedButton(onPressed: () => {decryptWallet()}, child: Text("解密钱包")),
+            ElevatedButton(onPressed: () => {(exportKeystore())}, child: Text("导出 keystore")),
+            ElevatedButton(onPressed: () => {(toChainDemoPage(context))}, child: Text("RPC方法测试")),
+            ElevatedButton(onPressed: () => {(toSettingDemoPage(context))}, child: Text("Setting测试")),
           ],
         ),
       ),

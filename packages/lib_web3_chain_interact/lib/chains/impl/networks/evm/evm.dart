@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:lib_base/logger/ab_logger.dart';
 import 'package:lib_chain_manager/model/ab_chain_info.dart';
 import 'package:lib_web3_chain_interact/base/i_ab_web3_network.dart';
 import 'package:lib_web3_chain_interact/chains/impl/networks/evm/transaction_impl.dart';
@@ -118,14 +119,14 @@ final class ABWeb3EVMNetworkImpl extends ABWeb3EVMNetwork with IABWeb3Network {
     required ABWeb3Signer signer,
   }) async {
     final signedList = <ABWeb3EVMSignedTransaction>[];
-
     if (signer is ABWeb3HardwareSigner) {
     } else if (signer is ABWeb3KeypairSigner) {}
 
     final method = await getRpcMethod();
     // 获取首个 nonce
-    int initNonce = await method.getTransactionCount(txs.first.from);
-    final chainId = await method.getNetworkId();
+    var res = await Future.wait([method.getTransactionCount(txs.first.from), method.getNetworkId()]);
+    int initNonce = res[0];
+    final chainId = res[1];
     final privateKeySigner = signer as ABWeb3PrivateKeySigner;
 
     /// fileCoin 强制要求走 EIP1559
@@ -241,5 +242,11 @@ final class ABWeb3EVMNetworkImpl extends ABWeb3EVMNetwork with IABWeb3Network {
   Future<BigInt> getL1Gas({required Uint8List tx, required String chainKey}) async {
     final method = await getRpcMethod();
     return method.getL1FeeV2(dataTx: tx, chainKey: chainKey);
+  }
+
+  @override
+  Future<ABWeb3EVMSignedTransaction> signTx({required ABWeb3EVMTransaction tx, required ABWeb3Signer signer}) async {
+    var res = await signTxs(txs: [tx], signer: signer);
+    return res.first;
   }
 }

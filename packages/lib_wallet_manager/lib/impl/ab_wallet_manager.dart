@@ -144,7 +144,6 @@ class ABWalletManager extends ABWalletManagerInterface {
 
   @override
   Future<ABAccount> addAcountForWallet({required ABWalletInfo info, required String password}) async {
-    print(info.toJson());
     var accountId = await Counter.getAccountNextId();
     var accountIndex = await Counter.getAccountNextIndex(walletId: info.id);
     Map<ChainId, ABAccountDetail> accountDetailsMap = {};
