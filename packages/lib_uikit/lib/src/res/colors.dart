@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 class ABAppColors {
+  ///可以参考下 ABColors 类的颜色设置
   static const white = Color(0xffffffff);
   static const blue = Color(0xff0043CE);
   static const black = Color(0xff161616);
