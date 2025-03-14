@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
+library lib_uikit;
 
+export 'src/uikit.dart';
+import 'package:flutter/cupertino.dart';
 import 'generated/l10n.dart';
 
 class LibUikit {
@@ -22,3 +24,4 @@ class LibUikit {
 
   List<Locale> supportedLocales() => LibUIKitS.delegate.supportedLocales;
 }
+

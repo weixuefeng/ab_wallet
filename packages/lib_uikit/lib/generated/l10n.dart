@@ -18,20 +18,17 @@ class LibUIKitS {
   static LibUIKitS? _current;
 
   static LibUIKitS get current {
-    assert(
-      _current != null,
-      'No instance of LibUIKitS was loaded. Try to initialize the LibUIKitS delegate before accessing LibUIKitS.current.',
-    );
+    assert(_current != null,
+        'No instance of LibUIKitS was loaded. Try to initialize the LibUIKitS delegate before accessing LibUIKitS.current.');
     return _current!;
   }
 
   static const AppLocalizationDelegate delegate = AppLocalizationDelegate();
 
   static Future<LibUIKitS> load(Locale locale) {
-    final name =
-        (locale.countryCode?.isEmpty ?? false)
-            ? locale.languageCode
-            : locale.toString();
+    final name = (locale.countryCode?.isEmpty ?? false)
+        ? locale.languageCode
+        : locale.toString();
     final localeName = Intl.canonicalizedLocale(name);
     return initializeMessages(localeName).then((_) {
       Intl.defaultLocale = localeName;
@@ -44,10 +41,8 @@ class LibUIKitS {
 
   static LibUIKitS of(BuildContext context) {
     final instance = LibUIKitS.maybeOf(context);
-    assert(
-      instance != null,
-      'No instance of LibUIKitS present in the widget tree. Did you add LibUIKitS.delegate in localizationsDelegates?',
-    );
+    assert(instance != null,
+        'No instance of LibUIKitS present in the widget tree. Did you add LibUIKitS.delegate in localizationsDelegates?');
     return instance!;
   }
 

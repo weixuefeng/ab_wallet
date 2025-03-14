@@ -5,8 +5,8 @@ import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
-import 'package:lib_uikit/theme/colors_value.dart';
-import 'package:lib_uikit/toast/ab_toast_overlay.dart';
+import 'package:lib_uikit/lib_uikit.dart';
+import 'package:lib_uikit/src/utils/theme/colors_value.dart';
 
 class DemoSettingPage extends HookConsumerWidget {
   const DemoSettingPage({super.key});

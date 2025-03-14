@@ -1,6 +1,8 @@
 import 'dart:ui';
 
-import 'package:lib_uikit/theme/theme_utils.dart';
+import 'package:lib_uikit/src/utils/theme/theme_utils.dart';
+
+
 
 class ColorsPair {
   final Color lightColor;
