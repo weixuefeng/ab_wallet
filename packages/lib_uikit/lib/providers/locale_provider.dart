@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:force_wallet/generated/l10n.dart';
+import 'package:lib_uikit/generated/l10n.dart';
 
 class LocaleStorageKeys{
   static const String abLocaleKey = "ab_locale_key";
@@ -8,10 +8,10 @@ class LocaleStorageKeys{
 }
 
 class LocaleProvider extends StateNotifier<Locale> {
-  LocaleProvider() : super(ABWalletS.delegate.supportedLocales.first);
+  LocaleProvider() : super(LibUIKitS.delegate.supportedLocales.first);
 
   void changeLocale(Locale locale) {
-    if (ABWalletS.delegate.supportedLocales.contains(locale)) {
+    if (LibUIKitS.delegate.supportedLocales.contains(locale)) {
       state = locale;
     }
   }

@@ -2,7 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/providers/locale_provider.dart';
+import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
 
 class AppSetUtils{
@@ -32,5 +32,11 @@ class AppSetUtils{
 
   static void loadThemeSetting({required BuildContext context}){
 
+  }
+
+  /// after local and theme init error,we used system setting.
+  static void setDefaultSetting({required BuildContext context}){
+    Locale sysLocal = Localizations.localeOf(context);
+    ABWalletS.load(sysLocal);
   }
 }

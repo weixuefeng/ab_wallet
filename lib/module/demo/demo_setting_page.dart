@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/providers/locale_provider.dart';
-import 'package:force_wallet/providers/theme_provider.dart';
+import 'package:lib_uikit/providers/locale_provider.dart';
+import 'package:lib_uikit/providers/theme_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
 import 'package:lib_uikit/toast/ab_toast_overlay.dart';
