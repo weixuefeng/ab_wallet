@@ -1,0 +1,16 @@
+name: lib_uikit_example
+description: Example app for lib_uikit
+
+dependencies:
+  flutter:
+    sdk: flutter
+  lib_uikit:
+    path: ../
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+environment:
+  sdk: '^3.8.0-171.0.dev'
