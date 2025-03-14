@@ -68,11 +68,11 @@ class MyApp extends HookConsumerWidget {
       },
       home: initialization.when(
         data: (_) {
-          AppSetUtils.appSetting(context: context);
+          AppBeforeHomePageInitializer.setUp(context: context);
           return HomePage(title: ABWalletS.current.ab_home_home_page);
         },
         error: (error, stack) {
-          AppSetUtils.setDefaultSetting(context: context);
+          AppBeforeHomePageInitializer.setDefaultUp(context: context);
           return Scaffold(
             body: HomePage(title: ABWalletS.current.ab_home_home_page),
           );

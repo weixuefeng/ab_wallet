@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:force_wallet/generated/l10n.dart';
+import 'package:lib_uikit/generated/l10n.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
 
@@ -38,5 +39,7 @@ class AppSetUtils{
   static void setDefaultSetting({required BuildContext context}){
     Locale sysLocal = Localizations.localeOf(context);
     ABWalletS.load(sysLocal);
+    /// lib_uikit also need to set locale
+    LibUIKitS.load(sysLocal);
   }
 }
