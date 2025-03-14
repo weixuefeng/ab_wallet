@@ -5,13 +5,15 @@ import 'package:force_wallet/generated/l10n.dart';
 import 'package:force_wallet/module/demo/demo_page.dart';
 import 'package:force_wallet/providers/theme_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:lib_base/provider/ab_navigator_provider.dart';
+import 'package:lib_storage/ab_storage_kv.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart';
 import 'providers/locale_provider.dart';
 
-void main() {
+Future<void> main() async {
   runApp(ProviderScope(child: const MyApp()));
 }
 
@@ -23,20 +25,39 @@ String helloWorld(Ref ref) {
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    
-   final locale =  ref.watch(localeProvider);
-   final themeMode =  ref.watch(themeProvider);
-   final themeNotifier = ref.read(themeProvider.notifier);
-    
+    final locale = ref.watch(localeProvider);
+    final themeMode = ref.watch(themeProvider);
+    final themeNotifier = ref.read(themeProvider.notifier);
+
     final counter = useState(0);
-    ABWalletS.load(Locale.fromSubtags(languageCode: 'en'));
+
+    ///
+
+
+
+    /// default language is en (it well be input utils folder).
+    Locale currentLocal = Locale.fromSubtags(languageCode: 'en');
+    String? localeLanguage = ABStorageKV.queryString(
+      LocaleStorageKeys.abLocaleKey,
+    );
+    if (localeLanguage == LocaleStorageKeys.abLocaleSysValue) {
+      Locale sysLocal = Localizations.localeOf(context);
+      if (ABWalletS.delegate.supportedLocales.contains(sysLocal)) {
+        currentLocal = sysLocal;
+      }
+    } else {
+      currentLocal = Locale.fromSubtags(languageCode: localeLanguage ?? 'en');
+    }
+    ABWalletS.load(currentLocal);
 
     // final String value = ref.watch(greetingProvider);
     return MaterialApp(
       title: ABWalletS.current.ab_home_home_page,
+      navigatorKey: ABNavigatorProvider.navigatorKey,
       themeMode: themeMode,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
@@ -46,7 +67,7 @@ class MyApp extends HookConsumerWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        ABWalletS.delegate
+        ABWalletS.delegate,
       ],
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocale in supportedLocales) {
@@ -56,7 +77,7 @@ class MyApp extends HookConsumerWidget {
         }
         return supportedLocales.first;
       },
-      home: MyHomePage(title:  ABWalletS.current.ab_home_home_page),
+      home: MyHomePage(title: ABWalletS.current.ab_home_home_page),
     );
   }
 }
@@ -95,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-             Text(ABWalletS.current.ab_home_home_page),
+            Text(ABWalletS.current.ab_home_home_page),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,

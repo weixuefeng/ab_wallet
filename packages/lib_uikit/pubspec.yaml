@@ -10,6 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  ## local dependences
+  lib_base:
+    path: ../lib_base
 
 dev_dependencies:
   flutter_test:
