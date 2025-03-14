@@ -31,4 +31,10 @@ class ABChainManagerImpl extends ABChainManagerInterface {
     // TODO: implement setSelectedChainInfo
     throw UnimplementedError();
   }
+
+  @override
+  List<ABChainInfo> getCacheAllChainInfos() {
+    // TODO: implement getCacheAllChainInfos
+    throw UnimplementedError();
+  }
 }

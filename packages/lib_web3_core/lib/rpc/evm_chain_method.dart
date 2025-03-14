@@ -51,8 +51,8 @@ class EVMChainMethod {
     BigInt? maxFeePerGas,
     Uint8List? data,
   }) async {
-    final from = EthereumAddress.fromHex(fromAddress);
-    final to = EthereumAddress.fromHex(toAddress);
+    final from = EthereumAddress.fromHex(WalletMethodUtils.newAddressToHex(fromAddress));
+    final to = EthereumAddress.fromHex(WalletMethodUtils.newAddressToHex(toAddress));
 
     EtherAmount? valueAmount;
     if (value != null) {
@@ -86,7 +86,9 @@ class EVMChainMethod {
       maxFeePerGas: maxFeePerGasAmount,
       data: data,
     );
-    return limit * BigInt.from(12) ~/ BigInt.from(10);
+    return limit;
+    // 有需要再打开，充分测试
+    // return limit * BigInt.from(12) ~/ BigInt.from(10);
   }
 
   Future<BigInt> estimateGas({
@@ -222,8 +224,8 @@ class EVMChainMethod {
   Future<String> callRaw(String? from, String to, String? data) {
     return mWeb3Client
         .callRaw(
-          sender: from == null ? null : EthereumAddress.fromHex(from),
-          contract: EthereumAddress.fromHex(to),
+          sender: from == null ? null : EthereumAddress.fromHex(WalletMethodUtils.newAddressToHex(from)),
+          contract: EthereumAddress.fromHex(WalletMethodUtils.newAddressToHex(to)),
           data: data == null ? Uint8List(0) : data.toUint8List(),
         )
         .then((value) => value);

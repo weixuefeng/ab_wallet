@@ -7,12 +7,11 @@
 // https://flutter.dev/to/integration-testing
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:integration_test/integration_test.dart';
 
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 
 void main() {
-  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  // IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('getPlatformVersion test', (WidgetTester tester) async {
     final FlutterTrustWalletCore plugin = FlutterTrustWalletCore();

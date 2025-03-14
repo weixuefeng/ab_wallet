@@ -24,10 +24,13 @@ dependencies:
     path: ../lib_base
   flutter_trust_wallet_core:
     path: ../flutter_trust_wallet_core
+  decimal: ^3.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  lib_chain_manager:
+    path: ../lib_chain_manager
 
 flutter:

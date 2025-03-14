@@ -1,77 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
-import 'package:force_wallet/module/demo/demo_page.dart';
+import 'package:force_wallet/common/app_initializer.dart';
+import 'package:force_wallet/generated/l10n.dart';
+import 'package:force_wallet/module/home/home_page.dart';
+import 'package:force_wallet/providers/initialize_provider.dart';
+import 'package:lib_uikit/providers/global_provider.dart';
+import 'package:lib_uikit/providers/locale_provider.dart';
+import 'package:lib_uikit/providers/theme_provider.dart';
+import 'package:force_wallet/utils/app_set_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lib_storage/lib_storage.dart';
+import 'package:lib_base/provider/ab_navigator_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() {
-  runApp(ProviderScope(child: const MyApp()));
-}
+Future<void> main() async {
+  /// Centralized management of initialization logic
+  await AppInitializer.initialize();
 
-@riverpod
-String helloWorld(Ref ref) {
-  return 'Hello World';
+  /// Start Application
+  runApp(
+    ProviderScope(
+      parent: globalProviderContainer,
+      //wait riverpod update to stable version 3.0
+      child: const MyApp(),
+    ),
+  );
+
+  /// Destroy resources together
+  WidgetsBinding.instance.addObserver(
+    _AppLifecycleObserver(globalProviderContainer),
+  );
 }
 
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final counter = useState(0);
-    // final String value = ref.watch(greetingProvider);
+    /// Global language state management
+    final locale = ref.watch(localeProvider);
+
+    /// Global theme state management
+    final themeMode = ref.watch(themeProvider);
+
+    /// Libraries states management that needs to be loaded before going to the home page
+    final initialization = ref.watch(initializationProvider);
+
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple)),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() async {
-    Navigator.push(
-      context,
-      PageRouteBuilder(
-        pageBuilder: (context, animation, secondaryAnimation) {
-          return const DemoPage();
+      navigatorKey: ABNavigatorProvider.navigatorKey,
+      themeMode: themeMode,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      supportedLocales: ABWalletS.delegate.supportedLocales,
+      locale: locale,
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        ABWalletS.delegate,
+      ],
+      localeResolutionCallback: (locale, supportedLocales) {
+        for (var supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == locale?.languageCode) {
+            return supportedLocale;
+          }
+        }
+        return supportedLocales.first;
+      },
+      home: initialization.when(
+        data: (_) {
+          AppSetUtils.appSetting(context: context);
+          return HomePage(title: ABWalletS.current.ab_home_home_page);
+        },
+        error: (error, stack) {
+          AppSetUtils.setDefaultSetting(context: context);
+          return Scaffold(
+            body: HomePage(title: ABWalletS.current.ab_home_home_page),
+          );
+        },
+        loading: () {
+          return Scaffold(
+            body: Center(child: Text('loading page，developing...')),
+          );
         },
       ),
     );
   }
+}
+
+class _AppLifecycleObserver extends WidgetsBindingObserver {
+  final ProviderContainer container;
+
+  _AppLifecycleObserver(this.container);
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(backgroundColor: Theme.of(context).colorScheme.inversePrimary, title: Text(widget.title)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            Text('$_counter', style: Theme.of(context).textTheme.headlineMedium),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
-    );
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.detached) {
+      container.dispose();
+      AppInitializer.disposeAll();
+    }
   }
 }

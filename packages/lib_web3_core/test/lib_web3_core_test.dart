@@ -8,4 +8,19 @@ void main() {
     var addr = WalletMethodUtils.newAddressToHex("NEW182MGKFubHczKvEXiXdcZ7DH8phGQnumsAHZ");
     print("addr: $addr");
   });
+
+
+  // group('MySingleton', () {
+  //   test('should return correct singleton method result', () {
+  //     // 获取单例实例
+  //     final mySingleton = MySingleton();
+  //
+  //     // 调用单例方法
+  //     final result = mySingleton.doSomething();
+  //
+  //     // 验证结果
+  //     expect(result, "This is a singleton method.");
+  //   });
+  // });
+
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:flutter_trust_wallet_core/trust_wallet_core_ffi.dart';
+import 'package:force_wallet/module/demo/demo_chain_page.dart';
+import 'package:force_wallet/module/demo/demo_setting_page.dart';
 import 'package:force_wallet/utils/time_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
@@ -21,13 +23,16 @@ class DemoPage extends HookConsumerWidget {
     var walletName = "钱包2";
     var password = "123456";
     var start = nowTimeStamp();
-    var mnemonic = HDWallet().mnemonic();
+    var mnemonic = "office final light crunch math photo broccoli poet congress view head square";
+    // HDWallet().mnemonic();
+    ABLogger.d("mnemonic: $mnemonic");
     var wallet = await ABWalletManager.instance.createWalletsByMnemonicAndCoinTypes(
       walletName: walletName,
       password: password,
       mnemonic: mnemonic,
       chainInfos: chainInfos,
     );
+    ABLogger.d(wallet.toJson());
     var end = nowTimeStamp();
     ABLogger.d("time: ${end - start}");
   }
@@ -82,7 +87,7 @@ class DemoPage extends HookConsumerWidget {
     var privateKey = await ABWalletManager.instance.decryptWallet(
       walletInfo: wallet[0],
       password: "123456",
-      account: wallet[0].walletAccounts[1],
+      account: wallet[0].walletAccounts[0],
       chainId: 1,
     );
     var secret = wallet[0].encryptStr;
@@ -92,6 +97,27 @@ class DemoPage extends HookConsumerWidget {
   }
 
   void exportKeystore() async {}
+  void toChainDemoPage(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const DemoChainPage();
+        },
+      ),
+    );
+  }
+
+  void toSettingDemoPage(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const DemoSettingPage();
+        },
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -108,6 +134,8 @@ class DemoPage extends HookConsumerWidget {
             ElevatedButton(onPressed: () => {addAccountForWallet()}, child: Text("给助记词钱包添加账户")),
             ElevatedButton(onPressed: () => {decryptWallet()}, child: Text("解密钱包")),
             ElevatedButton(onPressed: () => {(exportKeystore())}, child: Text("导出 keystore")),
+            ElevatedButton(onPressed: () => {(toChainDemoPage(context))}, child: Text("RPC方法测试")),
+            ElevatedButton(onPressed: () => {(toSettingDemoPage(context))}, child: Text("Setting测试")),
           ],
         ),
       ),

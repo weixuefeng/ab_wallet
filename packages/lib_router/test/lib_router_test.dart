@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:lib_router/lib_router.dart';
+import '../lib/lib_router.dart';
+// import 'package:lib_router/lib_router.dart';
 
 void main() {
   test('adds one to input values', () {
