@@ -2430,7 +2430,7 @@ class PreSigningOutput extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   $core.List<$core.List<$core.int>> get signers => $_getList(0);
 
-  /// Pre-image data. There is no hashing for Solana presign image
+  /// Pre-images data. There is no hashing for Solana presign images
   @$pb.TagNumber(2)
   $core.List<$core.int> get data => $_getN(1);
   @$pb.TagNumber(2)

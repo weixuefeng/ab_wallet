@@ -49,6 +49,16 @@ class LibUIKitS {
   static LibUIKitS? maybeOf(BuildContext context) {
     return Localizations.of<LibUIKitS>(context, LibUIKitS);
   }
+
+  /// `No Data`
+  String get no_data {
+    return Intl.message(
+      'No Data',
+      name: 'no_data',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<LibUIKitS> {

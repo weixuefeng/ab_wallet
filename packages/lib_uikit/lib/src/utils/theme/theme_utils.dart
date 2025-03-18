@@ -13,7 +13,7 @@ class ThemeUtils{
 
   /// Check whether the current theme is dart
   /// return true:is dart mode
-  static bool isDartTheme(){
+  static bool isDarkTheme(){
     return globalProviderContainer.read(themeProvider) == ThemeMode.dark;
   }
 

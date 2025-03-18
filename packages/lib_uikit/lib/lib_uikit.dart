@@ -1,6 +1,8 @@
 library lib_uikit;
 
 export 'src/uikit.dart';
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'generated/l10n.dart';
 

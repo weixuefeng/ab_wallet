@@ -71,7 +71,7 @@ class PreSigningOutput extends $pb.GeneratedMessage {
   static PreSigningOutput getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<PreSigningOutput>(create);
   static PreSigningOutput? _defaultInstance;
 
-  /// / Pre-image data hash that will be used for signing
+  /// / Pre-images data hash that will be used for signing
   @$pb.TagNumber(1)
   $core.List<$core.int> get dataHash => $_getN(0);
   @$pb.TagNumber(1)
@@ -81,7 +81,7 @@ class PreSigningOutput extends $pb.GeneratedMessage {
   @$pb.TagNumber(1)
   void clearDataHash() => clearField(1);
 
-  /// / Pre-image data
+  /// / Pre-images data
   @$pb.TagNumber(2)
   $core.List<$core.int> get data => $_getN(1);
   @$pb.TagNumber(2)

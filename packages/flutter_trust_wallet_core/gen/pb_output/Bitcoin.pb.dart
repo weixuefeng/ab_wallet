@@ -1306,7 +1306,7 @@ class SigningOutput extends $pb.GeneratedMessage {
   $4.SigningOutput ensureSigningResultV2() => $_ensure(5);
 }
 
-/// / Pre-image hash to be used for signing
+/// / Pre-images hash to be used for signing
 class HashPublicKey extends $pb.GeneratedMessage {
   factory HashPublicKey({
     $core.List<$core.int>? dataHash,
@@ -1352,7 +1352,7 @@ class HashPublicKey extends $pb.GeneratedMessage {
   static HashPublicKey getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<HashPublicKey>(create);
   static HashPublicKey? _defaultInstance;
 
-  /// / Pre-image data hash that will be used for signing
+  /// / Pre-images data hash that will be used for signing
   @$pb.TagNumber(1)
   $core.List<$core.int> get dataHash => $_getN(0);
   @$pb.TagNumber(1)
