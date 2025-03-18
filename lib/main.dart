@@ -3,6 +3,7 @@ import 'package:force_wallet/common/app_initializer.dart';
 import 'package:force_wallet/generated/l10n.dart';
 import 'package:force_wallet/module/home/home_page.dart';
 import 'package:force_wallet/providers/initialize_provider.dart';
+import 'package:lib_uikit/generated/l10n.dart';
 import 'package:lib_uikit/providers/global_provider.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
@@ -53,10 +54,11 @@ class MyApp extends HookConsumerWidget {
       supportedLocales: ABWalletS.delegate.supportedLocales,
       locale: locale,
       localizationsDelegates: const [
+        ABWalletS.delegate,
+        LibUIKitS.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        ABWalletS.delegate,
       ],
       localeResolutionCallback: (locale, supportedLocales) {
         for (var supportedLocale in supportedLocales) {
@@ -68,11 +70,17 @@ class MyApp extends HookConsumerWidget {
       },
       home: initialization.when(
         data: (_) {
-          AppBeforeHomePageInitializer.setUp(context: context);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            AppBeforeHomePageInitializer.setUp(context: context,ref:ref);
+          });
+          // AppBeforeHomePageInitializer.setUp(context: context);
           return HomePage(title: ABWalletS.current.ab_home_home_page);
         },
         error: (error, stack) {
-          AppBeforeHomePageInitializer.setDefaultUp(context: context);
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            AppBeforeHomePageInitializer.setDefaultUp(context: context);
+          });
+          // AppBeforeHomePageInitializer.setDefaultUp(context: context);
           return Scaffold(
             body: HomePage(title: ABWalletS.current.ab_home_home_page),
           );

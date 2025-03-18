@@ -10,7 +10,7 @@ class ColorsPair {
 
   const ColorsPair({required this.lightColor, required this.dartColor});
 
-  Color get color => ThemeUtils.isDartTheme() ? dartColor : lightColor;
+  Color get color => ThemeUtils.isDarkTheme() ? dartColor : lightColor;
 
   Color get(bool isDart) {
     return isDart ? dartColor : lightColor;

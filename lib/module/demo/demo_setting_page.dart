@@ -1,12 +1,18 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:force_wallet/common/constants.dart';
 import 'package:force_wallet/generated/l10n.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
+import 'package:lib_uikit/providers/preferences_provider.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_storage/ab_storage_kv.dart';
 import 'package:lib_uikit/lib_uikit.dart';
-import 'package:lib_uikit/src/utils/theme/colors_value.dart';
+import 'package:lib_uikit/src/utils/theme/colors_utils.dart';
+import 'package:lib_uikit/src/components/ab_empty_view.dart';
 
 class DemoSettingPage extends HookConsumerWidget {
   const DemoSettingPage({super.key});
@@ -15,28 +21,38 @@ class DemoSettingPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Locale systemLocale = Localizations.localeOf(context);
+    // Locale systemLocale = Localizations.localeOf(context);
 
-    final themeNotifier = ref.watch(themeProvider.notifier);
-    final localeNotifier = ref.read(localeProvider.notifier);
-
+    final themeNotifier = ref.read(themeProvider.notifier);
     final themeMode = ref.watch(themeProvider);
+    final localeNotifier = ref.read(localeProvider.notifier);
+    final preNotifier = ref.read(preferencesProvider.notifier);
 
+    final preWatchNotifier = ref.watch(preferencesProvider);
+
+    ///（Test Finish）
     void setLanguageEn() async {
       localeNotifier.changeLocale(Locale.fromSubtags(languageCode: 'en'));
       toSaveLocal(locale: Locale.fromSubtags(languageCode: 'en'));
     }
 
+    ///（Test Finish）
     void setLanguageZh() async {
       localeNotifier.changeLocale(Locale.fromSubtags(languageCode: 'zh'));
       toSaveLocal(locale: Locale.fromSubtags(languageCode: 'zh'));
     }
 
-    void setDisplayMode() async {
-      themeNotifier.toggleTheme();
-    }
+    ///设置语言跟随系统（Test Finish）
+    setLanguageFollowSystem() {
+      Locale systemLocale = ui.window.locale;
+      ABLogger.d("当前系统语言systemLocale：${systemLocale.toString()}");
 
-    setLanguageFollowSystem(Locale systemLocale) {
+      ///统一英文
+      if (systemLocale.toString().startsWith(ABConstants.abDefaultLanguage)) {
+        systemLocale = Locale.fromSubtags(
+          languageCode: ABConstants.abDefaultLanguage,
+        );
+      }
       if (ABWalletS.delegate.supportedLocales.contains(systemLocale)) {
         localeNotifier.changeLocale(systemLocale);
         toSaveLocal(locale: systemLocale, isSystemLocale: true);
@@ -49,11 +65,45 @@ class DemoSettingPage extends HookConsumerWidget {
       }
     }
 
-    setThemeFollowSystem() {}
+    ///设置白夜间模式（Test Finished）
+    void setDisplayMode(bool currentIsDark) async {
+      ///当前是夜间，优先修改本地保存值为白天
+      toSaveTheme(!currentIsDark);
 
-    setRedUp() {}
+      ///当前是夜间则切到白天
+      themeNotifier.setTheme(currentIsDark ? ThemeMode.light : ThemeMode.dark);
+    }
 
-    setGreenUp() {}
+    ///设置跟随系统主题（Test finished）
+    setThemeFollowSystem() {
+      ///获取当前系统主题
+      final brightness =
+          WidgetsBinding.instance.platformDispatcher.platformBrightness;
+
+      ///保存系统主题作为App主题
+      bool isDark = brightness == Brightness.dark;
+      ABLogger.d("当前系统主题：isDark：$isDark");
+      toSaveTheme(isDark, isSystemTheme: true);
+
+      ///当前App主题和系统不一致需要切换到系统的主题
+      bool currentAppModelIsDark = themeMode == ThemeMode.dark;
+      if (currentAppModelIsDark != isDark) {
+        themeNotifier.setTheme(isDark ? ThemeMode.dark : ThemeMode.light);
+      }
+    }
+
+    ///红涨绿跌
+    setGreenOrRedUp() {
+      ABLogger.d("当前个人设置：preWatchNotifier：$preWatchNotifier");
+
+      if (preWatchNotifier == 0) {
+        preNotifier.setPre(PreStorageKeys.abPreRedUpValue);
+        toSavePre(PreStorageKeys.abPreRedUpValue);
+      } else {
+        preNotifier.setPre(PreStorageKeys.abPreGreenUpValue);
+        toSavePre(PreStorageKeys.abPreGreenUpValue);
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +114,11 @@ class DemoSettingPage extends HookConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(ABWalletS.current.ab_public_app_name,style: TextStyle(color: ABColors.text2.color),),
+            ABEmptyView(iconType: ABEmptyIconType.data),
+            Text(
+              ABWalletS.current.ab_public_app_name,
+              style: TextStyle(color: ABColors.text2.color),
+            ),
             SizedBox(height: 48),
             ElevatedButton(
               onPressed: () => {setLanguageEn()},
@@ -75,21 +129,24 @@ class DemoSettingPage extends HookConsumerWidget {
               child: Text("国际化测试-中文"),
             ),
             ElevatedButton(
-              onPressed: () => {setDisplayMode()},
-              child: Text(themeMode == ThemeMode.light ? "切换夜间" : "切换白天"),
+              onPressed: () => {setDisplayMode(themeMode == ThemeMode.dark)},
+              child: Text(themeMode == ThemeMode.dark ? "切换到白天" : "切换到夜间"),
             ),
             ElevatedButton(
-              onPressed: () => {setLanguageFollowSystem(systemLocale)},
+              onPressed: () => {setLanguageFollowSystem()},
               child: Text("语言跟随系统"),
             ),
             ElevatedButton(
               onPressed: () => {setThemeFollowSystem()},
               child: Text("主题跟随系统"),
             ),
-            ElevatedButton(onPressed: () => {setRedUp()}, child: Text("红涨绿跌")),
+            Text(
+              preWatchNotifier == 0 ? "当前是绿涨红跌" : "当前是红涨绿跌",
+              style: TextStyle(color: ABColors.redPreColor.color),
+            ),
             ElevatedButton(
-              onPressed: () => {setGreenUp()},
-              child: Text("红跌绿涨"),
+              onPressed: () => {setGreenOrRedUp()},
+              child: Text("红绿涨跌设置"),
             ),
           ],
         ),
@@ -106,8 +163,18 @@ class DemoSettingPage extends HookConsumerWidget {
   }
 
   //存储当前主题到本地
-  void toSaveTheme({
-    required ThemeMode themeMode,
-    bool isSystemTheme = false,
-  }) {}
+  void toSaveTheme(bool isDark, {bool isSystemTheme = false}) {
+    ABStorageKV.saveString(
+      ThemeStorageKeys.abThemeKey,
+      isSystemTheme
+          ? ThemeStorageKeys.abThemeSysValue
+          : (isDark
+              ? ThemeStorageKeys.abThemeDarkValue
+              : ThemeStorageKeys.abThemeLightValue),
+    );
+  }
+
+  void toSavePre(int type) {
+    ABStorageKV.saveInt(PreStorageKeys.abPreKey, type);
+  }
 }

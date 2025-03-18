@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:force_wallet/common/constants.dart';
 import 'package:force_wallet/utils/app_set_utils.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:lib_uikit/lib_uikit.dart';
 
@@ -30,7 +33,7 @@ class AppBeforeHomePageInitializer {
   /// These libraries need to be loaded in front of the home page.
   Future<void> initialize() async {
     ///
-    await ABStorageInitializer.setup(securityKey: 'ab_storage_key');
+    await ABStorageInitializer.setup();
 
     /// Other1...
 
@@ -40,11 +43,14 @@ class AppBeforeHomePageInitializer {
   }
 
   /// These settings after initialize() success
-  static void setUp({required BuildContext context}) {
-    AppSetUtils.appSetting(context: context);
+  static void setUp({required BuildContext context,required WidgetRef ref }) {
+    Locale locale =  AppSetUtils.getLoadLocalSetting();
+    bool isDark =  AppSetUtils.getLoadThemeSetting();
+    int preType =  AppSetUtils.getLoadPreferencesSetting(context: context);
 
+    AppSetUtils.appSetting(ref:ref,locale: locale,isDark:isDark,preType:preType);
 
-    // LibUikit.setup(language, isDark, hzldMode);
+    LibUikit.setup(locale.toString(), isDark, preType != ABConstants.abDefaultPre);
 
     /// Other2...
 
@@ -55,9 +61,7 @@ class AppBeforeHomePageInitializer {
   static void setDefaultUp({required BuildContext context}) {
     AppSetUtils.setDefaultSetting(context: context);
 
-    // LibUikit.setup(language, isDark, hzldMode);
-
-    /// Other1...
+    LibUikit.setup(ABConstants.abDefaultLanguage, true, false);
 
     /// Other2...
 
