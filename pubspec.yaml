@@ -29,6 +29,8 @@ dependencies:
     path: ./packages/lib_network
   lib_storage:
     path: ./packages/lib_storage
+  lib_router:
+    path: ./packages/lib_router
   lib_token_manager:
     path: ./packages/lib_token_manager
   lib_wallet_manager:
