@@ -3,6 +3,7 @@ import 'package:force_wallet/common/app_initializer.dart';
 import 'package:force_wallet/generated/l10n.dart';
 import 'package:force_wallet/module/home/home_page.dart';
 import 'package:force_wallet/providers/initialize_provider.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:lib_uikit/generated/l10n.dart';
 import 'package:lib_uikit/providers/global_provider.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
@@ -12,6 +13,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/provider/ab_navigator_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'module/wallet/pages/wallet_create_type_page.dart';
 
 Future<void> main() async {
   /// Centralized management of initialization logic
@@ -69,18 +72,25 @@ class MyApp extends HookConsumerWidget {
         return supportedLocales.first;
       },
       home: initialization.when(
-        data: (_) {
+        data: (result) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            AppBeforeHomePageInitializer.setUp(context: context,ref:ref);
+            if(result.mmkvSuccess){
+              AppBeforeHomePageInitializer.setUp(ref:ref);
+            }else{
+              AppBeforeHomePageInitializer.setDefaultUp();
+            }
           });
-          // AppBeforeHomePageInitializer.setUp(context: context);
-          return HomePage(title: ABWalletS.current.ab_home_home_page);
+          // if(result.haveLocalWalletInfo){
+            return HomePage(title: ABWalletS.current.ab_home_home_page);
+          // }else{
+          //   return WalletCreateTypePage();
+          // }
         },
         error: (error, stack) {
+          //TODO: 暂时不会走到错误，视情况处理
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            AppBeforeHomePageInitializer.setDefaultUp(context: context);
+            AppBeforeHomePageInitializer.setDefaultUp();
           });
-          // AppBeforeHomePageInitializer.setDefaultUp(context: context);
           return Scaffold(
             body: HomePage(title: ABWalletS.current.ab_home_home_page),
           );

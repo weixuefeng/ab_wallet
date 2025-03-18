@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:force_wallet/common/constants.dart';
+import 'package:force_wallet/repositry/initializer_result.dart';
 import 'package:force_wallet/utils/app_set_utils.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:lib_uikit/lib_uikit.dart';
+import 'package:lib_wallet_manager/impl/ab_wallet_realm_storage.dart';
+import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 
 class AppInitializer {
   /// These libraries need to be loaded in front of the app start.
@@ -31,22 +34,37 @@ class AppInitializer {
 
 class AppBeforeHomePageInitializer {
   /// These libraries need to be loaded in front of the home page.
-  Future<void> initialize() async {
-    ///
-    await ABStorageInitializer.setup();
+  Future<InitializerResult> initialize() async {
+    /// Init MMKV
+    bool initStorageSuccess = true;
+    try{
+      await ABStorageInitializer.setup();
+    }catch(error){
+      initStorageSuccess = false;
+    }
 
-    /// Other1...
+    /// Read Local WalletInfo
+    bool readWalletInfoSuccess = true;
+    List<ABWalletInfo> walletInfos = [];
+    try{
+      walletInfos =  await ABWalletRealmStorage.instance.getAllWalletList();
+    }catch(error){
+      readWalletInfoSuccess = false;
+    }
 
     /// Other2...
 
     /// Other3...
+
+    return InitializerResult(mmkvSuccess:initStorageSuccess,walletInfoSuccess:readWalletInfoSuccess,haveLocalWalletInfo:walletInfos.isNotEmpty);
   }
 
   /// These settings after initialize() success
-  static void setUp({required BuildContext context,required WidgetRef ref }) {
+  static void setUp({required WidgetRef ref }) {
+    /// local setting include preferences language theme.
     Locale locale =  AppSetUtils.getLoadLocalSetting();
     bool isDark =  AppSetUtils.getLoadThemeSetting();
-    int preType =  AppSetUtils.getLoadPreferencesSetting(context: context);
+    int preType =  AppSetUtils.getLoadPreferencesSetting();
 
     AppSetUtils.appSetting(ref:ref,locale: locale,isDark:isDark,preType:preType);
 
@@ -54,12 +72,13 @@ class AppBeforeHomePageInitializer {
 
     /// Other2...
 
+
     /// Other3...
   }
 
   /// These settings after initialize() fail
-  static void setDefaultUp({required BuildContext context}) {
-    AppSetUtils.setDefaultSetting(context: context);
+  static void setDefaultUp() {
+    AppSetUtils.setDefaultSetting();
 
     LibUikit.setup(ABConstants.abDefaultLanguage, true, false);
 

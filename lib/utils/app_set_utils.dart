@@ -75,7 +75,7 @@ class AppSetUtils {
     ref.read(themeProvider.notifier).setTheme(isDark? ThemeMode.dark:ThemeMode.light);
   }
 
-  static int getLoadPreferencesSetting({required BuildContext context}) {
+  static int getLoadPreferencesSetting() {
     return ABStorageKV.queryInt(
       PreStorageKeys.abPreKey,
       defaultValue:ABConstants.abDefaultPre,
@@ -88,8 +88,8 @@ class AppSetUtils {
   }
 
   /// after local and theme init error,we used system setting.
-  static void setDefaultSetting({required BuildContext context}) {
-    Locale sysLocal = Localizations.localeOf(context);
+  static void setDefaultSetting() {
+    Locale sysLocal= ui.window.locale;
     ABWalletS.load(sysLocal);
 
     /// lib_uikit also need to set locale
