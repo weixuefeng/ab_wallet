@@ -9,3 +9,4 @@ export 'components/textfield.dart';
 export 'components/tile.dart';
 export 'theme/app_theme.dart';
 export 'utils/responsive_utils.dart';
+export 'components/tab_bar.dart';

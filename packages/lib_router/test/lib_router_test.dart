@@ -1,13 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-
-import '../lib/lib_router.dart';
-// import 'package:lib_router/lib_router.dart';
+import 'package:lib_router/lib_router.dart';
+import 'package:go_router/go_router.dart';
 
 void main() {
-  test('adds one to input values', () {
-    final calculator = Calculator();
-    expect(calculator.addOne(2), 3);
-    expect(calculator.addOne(-7), -6);
-    expect(calculator.addOne(0), 1);
+  test('RouterConfig builds GoRouter', () {
+    final config = LibRouterConfig(routes: []);
+    expect(config.buildRouter(), isA<GoRouter>());
   });
 }
