@@ -1,4 +1,4 @@
-import 'package:lib_chain_manager/model/ab_chain_info.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_wallet_manager/model/ab_account.dart';
 import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 

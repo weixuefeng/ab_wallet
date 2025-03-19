@@ -1,4 +1,4 @@
-import 'package:lib_chain_manager/model/ab_chain_info.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_wallet_manager/model/ab_protocol_account.dart';
 
 class ABAccountDetail {
@@ -48,7 +48,7 @@ class ABAccountDetail {
       defaultPublicKey: json['defaultPublicKey'],
       defaultAddress: json['defaultAddress'],
       derivationPath: json['derivationPath'],
-      chainInfo: ABChainInfo.fromJson(json['chainInfo']),
+      chainInfo: ABChainInfoExtension.fromJson(json['chainInfo']),
       extendedPublicKey: json['extendedPublicKey'] ?? '',
       protocolAccounts:
           json['protocolAccounts'] == null

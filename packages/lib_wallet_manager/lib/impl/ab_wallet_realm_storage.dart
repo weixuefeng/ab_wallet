@@ -1,6 +1,6 @@
 import 'dart:convert';
-
-import 'package:lib_chain_manager/model/ab_chain_info.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
+import 'package:lib_token_manager/lib_token_manager.dart';
 import 'package:lib_wallet_manager/db_model/ab_wallet_info_db_model.dart';
 import 'package:lib_wallet_manager/interface/ab_wallet_storage_interface.dart';
 import 'package:lib_wallet_manager/model/ab_account.dart';
@@ -10,6 +10,7 @@ import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 import 'package:lib_wallet_manager/model/ab_wallet_type.dart';
 import 'package:realm/realm.dart';
 
+
 class ABWalletRealmStorage extends ABWalletStorageInterface {
   late LocalConfiguration walletDBInfoConfig;
   ABWalletRealmStorage._internal() {
@@ -18,6 +19,7 @@ class ABWalletRealmStorage extends ABWalletStorageInterface {
       ABAccountDBModel.schema,
       ABAccountDetailDBModel.schema,
       ABProtocolAccountDBModel.schema,
+      ABTokenInfo.schema,
     ], schemaVersion: 0);
   }
 
@@ -102,7 +104,7 @@ class ABWalletRealmStorage extends ABWalletStorageInterface {
           List<ABAccountDetailDBModel> accountDBDetails = dbAccount.accountDetails;
           if (accountDBDetails.isNotEmpty) {
             for (var dbAccountDetail in accountDBDetails) {
-              ABChainInfo chainInfo = ABChainInfo.fromJson(jsonDecode(dbAccountDetail.chainInfo));
+              ABChainInfo chainInfo = ABChainInfoExtension.fromJson(jsonDecode(dbAccountDetail.chainInfo));
               ABAccountDetail accountDetail = ABAccountDetail(
                 chainInfo: chainInfo,
                 defaultAddress: dbAccountDetail.defaultAddress,

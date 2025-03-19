@@ -21,12 +21,6 @@ class ABColors {
 
   ///红涨绿跌的红
   static ColorsPair get redPreColor =>
-  // static ColorsPair redPreColor({required BuildContext context}) {
-    // final redPreColor = ProviderScope.containerOf(
-    //   context,
-    // ).read(preferencesProvider);
-
-   // int redPreColor =  PreferencesUtils.getCurrentPreType();
   PreferencesUtils.getCurrentPreType() == 0
         ? ColorsPair(
           lightColor: ABAppColors.green,

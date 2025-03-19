@@ -1,8 +1,6 @@
 library lib_uikit;
 
 export 'src/uikit.dart';
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'generated/l10n.dart';
 
@@ -25,5 +23,8 @@ class LibUikit {
   LocalizationsDelegate<dynamic> localizationsDelegate() => LibUIKitS.delegate;
 
   List<Locale> supportedLocales() => LibUIKitS.delegate.supportedLocales;
+
+  void destroy(){
+  }
 }
 

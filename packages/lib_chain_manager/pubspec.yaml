@@ -12,10 +12,28 @@ dependencies:
     sdk: flutter
   lib_token_manager:
     path: ../lib_token_manager/
+  # DB
+  realm: ^20.0.1
+  collection: ^1.17.0
+  # status manager
+  flutter_riverpod: 2.6.1
+  ## local dependences
+  lib_base:
+    path: ../lib_base
+  json_annotation: ^4.8.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: ^2.3.3
+  json_serializable: ^6.6.0
+
+targets:
+  $default:
+    builders:
+      realm_generator:
+        generate_for:
+          - lib/src/db_model/*.dart
 
 flutter:

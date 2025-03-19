@@ -1,4 +1,5 @@
-import 'package:lib_chain_manager/model/ab_chain_info.dart';
+
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 
 abstract class ABWeb3CoreModule {
   static ABWeb3CoreModule? _instance;

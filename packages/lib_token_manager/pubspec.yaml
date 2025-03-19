@@ -10,11 +10,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  realm: ^20.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+  build_runner: ^2.3.3
+
+targets:
+  $default:
+    builders:
+      realm_generator:
+        generate_for:
+          - lib/src/ab_model/*.dart
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

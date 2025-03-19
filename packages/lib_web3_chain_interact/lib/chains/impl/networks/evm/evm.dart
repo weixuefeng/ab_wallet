@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:lib_base/logger/ab_logger.dart';
-import 'package:lib_chain_manager/model/ab_chain_info.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_web3_chain_interact/base/i_ab_web3_network.dart';
 import 'package:lib_web3_chain_interact/chains/impl/networks/evm/transaction_impl.dart';
 import 'package:lib_web3_chain_interact/chains/interface/networks/evm.dart';
@@ -15,15 +15,15 @@ final class ABWeb3EVMNetworkImpl extends ABWeb3EVMNetwork with IABWeb3Network {
   EVMChainMethod? _method;
 
   Future<EVMChainMethod> getRpcMethod() async {
-    _method ??= EVMChainMethod(mChainInfo.endpoints.rpcAddresses![0]);
+    _method ??= EVMChainMethod(mChainInfo.endpoints!.rpcAddresses![0]);
     return _method!;
   }
 
   @override
-  Future<String> get symbol => Future.value(mChainInfo.mainTokenInfo.tokenSymbol);
+  Future<String> get symbol => Future.value(mChainInfo.mainTokenInfo!.tokenSymbol);
 
   @override
-  Future<String> get name => Future.value(mChainInfo.mainTokenInfo.tokenName);
+  Future<String> get name => Future.value(mChainInfo.mainTokenInfo!.tokenName);
 
   @override
   Future<BigInt> getBalance({required String address}) async {

@@ -1,5 +1,4 @@
-import 'package:lib_chain_manager/model/ab_chain_info.dart';
-import 'package:lib_chain_manager/model/ab_chain_type.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_web3_chain_interact/base/i_ab_web3_core_module.dart';
 import 'package:lib_web3_chain_interact/chains/impl/networks/evm/evm.dart';
 

@@ -1,37 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:force_wallet/common/app_initializer.dart';
-import 'package:lib_uikit/providers/global_provider.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:force_wallet/app.dart';
 
 Future<void> main() async {
-  /// Centralized management of initialization logic
+  // Centralized management of initialization logic
   await AppInitializer.initialize();
 
-  /// Start Application
+  // Start Application
   runApp(
     ProviderScope(
-      parent: globalProviderContainer,
+      parent: abGlobalProviderContainer,
       //wait riverpod update to stable version 3.0
       child: const MyApp(),
     ),
   );
 
-  /// Destroy resources together
+  // Destroy resources together
   WidgetsBinding.instance.addObserver(
-    _AppLifecycleObserver(globalProviderContainer),
+    _AppLifecycleObserver(),
   );
 }
 
 class _AppLifecycleObserver extends WidgetsBindingObserver {
-  final ProviderContainer container;
-
-  _AppLifecycleObserver(this.container);
+  _AppLifecycleObserver();
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.detached) {
-      container.dispose();
       AppInitializer.disposeAll();
     }
   }
