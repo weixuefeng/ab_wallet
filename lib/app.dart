@@ -27,34 +27,10 @@ class MyApp extends HookConsumerWidget {
     /// Libraries states management that needs to be loaded before going to the home page
     final initialization = ref.watch(initializationProvider);
 
-    // return MaterialApp.router(
-    //   routeInformationProvider: AppRouter.router.routeInformationProvider,
-    //   routeInformationParser: AppRouter.router.routeInformationParser,
-    //   routerDelegate: AppRouter.router.routerDelegate,
-    //   themeMode: themeMode,
-    //   theme: ThemeData.light(),
-    //   darkTheme: ThemeData.dark(),
-    //   supportedLocales: ABWalletS.delegate.supportedLocales,
-    //   locale: locale,
-    //   localizationsDelegates: const [
-    //     ABWalletS.delegate,
-    //     LibUIKitS.delegate,
-    //     GlobalMaterialLocalizations.delegate,
-    //     GlobalWidgetsLocalizations.delegate,
-    //     GlobalCupertinoLocalizations.delegate,
-    //   ],
-    //   localeResolutionCallback: (locale, supportedLocales) {
-    //     for (var supportedLocale in supportedLocales) {
-    //       if (supportedLocale.languageCode == locale?.languageCode) {
-    //         return supportedLocale;
-    //       }
-    //     }
-    //     return supportedLocales.first;
-    //   },
-    // );
-
-    return MaterialApp(
-      navigatorKey: ABNavigatorProvider.navigatorKey,
+    return MaterialApp.router(
+      routeInformationProvider: AppRouter.router.routeInformationProvider,
+      routeInformationParser: AppRouter.router.routeInformationParser,
+      routerDelegate: AppRouter.router.routerDelegate,
       themeMode: themeMode,
       theme: ThemeData.light(),
       darkTheme: ThemeData.dark(),
@@ -75,36 +51,60 @@ class MyApp extends HookConsumerWidget {
         }
         return supportedLocales.first;
       },
-      home: initialization.when(
-        data: (result) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            if (result.mmkvSuccess) {
-              AppBeforeHomePageInitializer.setUp(ref: ref);
-            } else {
-              AppBeforeHomePageInitializer.setDefaultUp();
-            }
-          });
-          // if(result.haveLocalWalletInfo){
-          return MainScreen(); //title: ABWalletS.current.ab_home_home_page);
-          // }else{
-          //   return WalletCreateTypePage();
-          // }
-        },
-        error: (error, stack) {
-          //TODO: 暂时不会走到错误，视情况处理
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            AppBeforeHomePageInitializer.setDefaultUp();
-          });
-          return Scaffold(
-            body: HomePage(title: ABWalletS.current.ab_home_home_page),
-          );
-        },
-        loading: () {
-          return Scaffold(
-            body: Center(child: Text('loading page，developing...')),
-          );
-        },
-      ),
     );
+
+    // return MaterialApp(
+    //   navigatorKey: ABNavigatorProvider.navigatorKey,
+    //   themeMode: themeMode,
+    //   theme: ThemeData.light(),
+    //   darkTheme: ThemeData.dark(),
+    //   supportedLocales: ABWalletS.delegate.supportedLocales,
+    //   locale: locale,
+    //   localizationsDelegates: const [
+    //     ABWalletS.delegate,
+    //     LibUIKitS.delegate,
+    //     GlobalMaterialLocalizations.delegate,
+    //     GlobalWidgetsLocalizations.delegate,
+    //     GlobalCupertinoLocalizations.delegate,
+    //   ],
+    //   localeResolutionCallback: (locale, supportedLocales) {
+    //     for (var supportedLocale in supportedLocales) {
+    //       if (supportedLocale.languageCode == locale?.languageCode) {
+    //         return supportedLocale;
+    //       }
+    //     }
+    //     return supportedLocales.first;
+    //   },
+    //   home: initialization.when(
+    //     data: (result) {
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         if (result.mmkvSuccess) {
+    //           AppBeforeHomePageInitializer.setUp(ref: ref);
+    //         } else {
+    //           AppBeforeHomePageInitializer.setDefaultUp();
+    //         }
+    //       });
+    //       // if(result.haveLocalWalletInfo){
+    //       return MainScreen(); //title: ABWalletS.current.ab_home_home_page);
+    //       // }else{
+    //       //   return WalletCreateTypePage();
+    //       // }
+    //     },
+    //     error: (error, stack) {
+    //       //TODO: 暂时不会走到错误，视情况处理
+    //       WidgetsBinding.instance.addPostFrameCallback((_) {
+    //         AppBeforeHomePageInitializer.setDefaultUp();
+    //       });
+    //       return Scaffold(
+    //         body: HomePage(title: ABWalletS.current.ab_home_home_page),
+    //       );
+    //     },
+    //     loading: () {
+    //       return Scaffold(
+    //         body: Center(child: Text('loading page，developing...')),
+    //       );
+    //     },
+    //   ),
+    // );
   }
 }
