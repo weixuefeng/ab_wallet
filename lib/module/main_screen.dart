@@ -3,33 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:lib_uikit/lib_uikit.dart';
 import 'package:force_wallet/generated/l10n.dart';
 import 'package:force_wallet/module/home/home_page.dart';
-import 'package:force_wallet/module/settings/settings.dart';
+import 'package:force_wallet/module/settings/settings_page.dart';
+import 'package:lib_router/lib_router_exports.dart';
 
-class RootScreen extends StatefulWidget {
-  const RootScreen({super.key});
+class MainScreen extends StatelessWidget {
+  final Widget child;
+  final GoRouterState state;
 
-  @override
-  State<RootScreen> createState() => _RootScreenState();
-}
-
-class _RootScreenState extends State<RootScreen> {
-  int _currentIndex = 0;
+  MainScreen({required this.child, required this.state, super.key});
 
   final List<Widget> _pages = [
     HomePage(title: ABWalletS.current.ab_home_home_page),
     SettingPage(title: ABWalletS.current.ab_mine_setting),
   ];
 
-  void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_currentIndex],
+      body: child,
       bottomNavigationBar: ABTabBar(
         items: const [
           BottomNavigationBarItem(
@@ -42,9 +33,29 @@ class _RootScreenState extends State<RootScreen> {
             label: 'Setting',
           ),
         ],
-        currentIndex: _currentIndex,
-        onTap: _onTabTapped,
+        currentIndex: _calculateCurrentIndex(state),
+        onTap: (index) => _onItemTapped(index, context),
       ),
     );
+  }
+}
+
+int _calculateCurrentIndex(GoRouterState state) {
+  if (state.uri.path == '/') {
+    return 0;
+  } else if (state.uri.path == '/settings') {
+    return 1;
+  }
+  return 0;
+}
+
+void _onItemTapped(int index, BuildContext context) {
+  switch (index) {
+    case 0:
+      context.go('/');
+      break;
+    case 1:
+      context.go('/settings');
+      break;
   }
 }
