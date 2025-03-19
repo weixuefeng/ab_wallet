@@ -5,7 +5,7 @@ import 'package:lib_uikit/providers/preferences_provider.dart';
 class PreferencesUtils {
 
   static int getCurrentPreType(){
-    return globalProviderContainer.read(preferencesProvider);
+    return libUikitProviderContainer.read(preferencesProvider);
   }
 
 }

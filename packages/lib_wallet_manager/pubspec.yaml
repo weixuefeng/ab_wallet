@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   lib_chain_manager:
     path: ../lib_chain_manager
+  lib_token_manager:
+    path: ../lib_token_manager
   lib_web3_core:
     path: ../lib_web3_core
   lib_storage:

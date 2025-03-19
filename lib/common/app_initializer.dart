@@ -4,8 +4,10 @@ import 'package:force_wallet/common/constants.dart';
 import 'package:force_wallet/repositry/initializer_result.dart';
 import 'package:force_wallet/utils/app_set_utils.dart';
 import 'package:lib_base/lib_base.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:lib_uikit/lib_uikit.dart';
+import 'package:lib_uikit/providers/global_provider.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_realm_storage.dart';
 import 'package:lib_wallet_manager/model/ab_wallet_info.dart';
 
@@ -14,28 +16,32 @@ class AppInitializer {
   static Future<void> initialize() async {
     // The libraries that need to be loaded before the runApp() function execution require adding await.
 
-    /// Other1...
 
-    /// Other2...
 
-    /// Other3...
+    // Other1...
+
+    // Other2...
+
+    // Other3...
   }
 
   /// Destroy resources together after exit app.
   static void disposeAll() {
-    /// Other1...
+    // dispose  global provider of lib_uikit.
+    LibUikit.instance.destroy();
+    // dispose  global provider of lib_chain_manager.
+    LibChainManager.instance.destroy();
 
-    /// Other2...
-
-    /// Other3...
+    // Other3...
   }
 
 }
 
 class AppBeforeHomePageInitializer {
+
   /// These libraries need to be loaded in front of the home page.
   Future<InitializerResult> initialize() async {
-    /// Init MMKV
+    // Init MMKV
     bool initStorageSuccess = true;
     try{
       await ABStorageInitializer.setup();
@@ -43,7 +49,7 @@ class AppBeforeHomePageInitializer {
       initStorageSuccess = false;
     }
 
-    /// Read Local WalletInfo
+    // Read Local WalletInfo
     bool readWalletInfoSuccess = true;
     List<ABWalletInfo> walletInfos = [];
     try{
@@ -52,16 +58,16 @@ class AppBeforeHomePageInitializer {
       readWalletInfoSuccess = false;
     }
 
-    /// Other2...
+    // Other2...
 
-    /// Other3...
+    // Other3...
 
     return InitializerResult(mmkvSuccess:initStorageSuccess,walletInfoSuccess:readWalletInfoSuccess,haveLocalWalletInfo:walletInfos.isNotEmpty);
   }
 
   /// These settings after initialize() success
   static void setUp({required WidgetRef ref }) {
-    /// local setting include preferences language theme.
+    // local setting include preferences language theme.
     Locale locale =  AppSetUtils.getLoadLocalSetting();
     bool isDark =  AppSetUtils.getLoadThemeSetting();
     int preType =  AppSetUtils.getLoadPreferencesSetting();
@@ -70,10 +76,10 @@ class AppBeforeHomePageInitializer {
 
     LibUikit.setup(locale.toString(), isDark, preType != ABConstants.abDefaultPre);
 
-    /// Other2...
+    // Other2...
 
 
-    /// Other3...
+    // Other3...
   }
 
   /// These settings after initialize() fail
@@ -82,8 +88,8 @@ class AppBeforeHomePageInitializer {
 
     LibUikit.setup(ABConstants.abDefaultLanguage, true, false);
 
-    /// Other2...
+    // Other2...
 
-    /// Other3...
+    // Other3...
   }
 }

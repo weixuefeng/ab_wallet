@@ -8,13 +8,13 @@ class ThemeUtils{
 
   /// Obtain the current topic through the global provider
   static ThemeMode getCurrentTheme(){
-    return globalProviderContainer.read(themeProvider);
+    return libUikitProviderContainer.read(themeProvider);
   }
 
   /// Check whether the current theme is dart
   /// return true:is dart mode
   static bool isDarkTheme(){
-    return globalProviderContainer.read(themeProvider) == ThemeMode.dark;
+    return libUikitProviderContainer.read(themeProvider) == ThemeMode.dark;
   }
 
   /// Get current theme mode in Widget Build.

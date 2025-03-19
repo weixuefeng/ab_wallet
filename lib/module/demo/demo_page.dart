@@ -7,7 +7,7 @@ import 'package:force_wallet/module/demo/demo_setting_page.dart';
 import 'package:force_wallet/utils/time_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
-import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_storage/lib_storage.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_manager.dart';
 import 'package:lib_web3_core/utils/wallet_method_extension.dart';

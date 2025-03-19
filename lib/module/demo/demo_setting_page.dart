@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:force_wallet/common/constants.dart';
 import 'package:force_wallet/generated/l10n.dart';
+import 'package:force_wallet/module/demo/demo_component_page.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_uikit/providers/preferences_provider.dart';
@@ -148,6 +149,10 @@ class DemoSettingPage extends HookConsumerWidget {
               onPressed: () => {setGreenOrRedUp()},
               child: Text("红绿涨跌设置"),
             ),
+            ElevatedButton(
+              onPressed: () => {goComponent(context)},
+              child: Text("组件设置"),
+            ),
           ],
         ),
       ),
@@ -176,5 +181,16 @@ class DemoSettingPage extends HookConsumerWidget {
 
   void toSavePre(int type) {
     ABStorageKV.saveInt(PreStorageKeys.abPreKey, type);
+  }
+
+  void goComponent(BuildContext context) {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) {
+          return const DemoComponentPage();
+        },
+      ),
+    );
   }
 }

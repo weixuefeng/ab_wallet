@@ -1,6 +1,9 @@
 enum ABNetworkType {
+  // 主网络由后台控制
   mainnet('mainnet', 0),
+  // 测试网络由后台控制
   testnet('testnet', 1),
+  // 自定义网络由用户控制（自定义主网和测试网均属于自定义网络）
   custom('custom', 2);
 
   final String networkName;

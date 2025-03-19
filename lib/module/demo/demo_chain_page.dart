@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
-import 'package:lib_chain_manager/mock/mock_ab_chain_manager_impl.dart';
+import 'package:lib_chain_manager/lib_chain_manager.dart';
 import 'package:lib_wallet_manager/impl/ab_wallet_manager.dart';
 import 'package:lib_wallet_manager/model/ab_account.dart';
 import 'package:lib_wallet_manager/model/ab_account_detail.dart';
@@ -40,7 +40,7 @@ class DemoChainPage extends HookConsumerWidget {
   void getCoinBalance() async {
     initCore();
 
-    var chainInfos = MockAbChainManagerImpl.instance.getCacheAllChainInfos();
+    var chainInfos = ABChainUtils.getAllChains();
 
     ABWeb3EVMNetworkImpl abWeb3Chain = ABWeb3CoreModule.instance.getWeb3Network(chainInfo: chainInfos.first);
 
@@ -53,7 +53,7 @@ class DemoChainPage extends HookConsumerWidget {
 
   void getContractTokenBalance() async {
     initCore();
-    var chainInfos = MockAbChainManagerImpl.instance.getCacheAllChainInfos();
+    var chainInfos = ABChainUtils.getAllChains();
     ABWeb3EVMNetworkImpl abWeb3Chain = await ABWeb3CoreModule.instance.getWeb3Network(chainInfo: chainInfos.first);
     var balance = await abWeb3Chain.getErc20TokenBalance(
       address: evmAddress,
@@ -71,7 +71,7 @@ class DemoChainPage extends HookConsumerWidget {
     List<ABWalletInfo> walletList = await ABWalletManager.instance.getAllWalletInfos();
     ABWalletInfo wallet = walletList.first;
     ABAccount account = wallet.walletAccounts.first;
-    var chainInfo = MockAbChainManagerImpl.instance.ab;
+    var chainInfo = ABChainUtils.getAllChains().first;
     ABAccountDetail accountDetail = account.accountDetailsMap[chainInfo.chainId]!;
     var to = "0xdAC17F958D2ee523a2206206994597C13D831ec7";
     ABWeb3EVMNetworkImpl abWeb3Chain = await ABWeb3CoreModule.instance.getWeb3Network(chainInfo: chainInfo);
