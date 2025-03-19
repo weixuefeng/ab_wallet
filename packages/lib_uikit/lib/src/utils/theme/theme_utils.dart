@@ -1,20 +1,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lib_uikit/providers/global_provider.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
 
 class ThemeUtils{
 
   /// Obtain the current topic through the global provider
   static ThemeMode getCurrentTheme(){
-    return libUikitProviderContainer.read(themeProvider);
+    return abGlobalProviderContainer.read(themeProvider);
   }
 
   /// Check whether the current theme is dart
   /// return true:is dart mode
   static bool isDarkTheme(){
-    return libUikitProviderContainer.read(themeProvider) == ThemeMode.dark;
+    return abGlobalProviderContainer.read(themeProvider) == ThemeMode.dark;
   }
 
   /// Get current theme mode in Widget Build.

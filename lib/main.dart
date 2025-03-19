@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:force_wallet/common/app_initializer.dart';
-import 'package:lib_uikit/providers/global_provider.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:force_wallet/app.dart';
 
@@ -11,7 +11,7 @@ Future<void> main() async {
   // Start Application
   runApp(
     ProviderScope(
-      parent: libUikitProviderContainer,
+      parent: abGlobalProviderContainer,
       //wait riverpod update to stable version 3.0
       child: const MyApp(),
     ),

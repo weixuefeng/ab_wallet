@@ -1,11 +1,11 @@
 
-import 'package:lib_uikit/providers/global_provider.dart';
+import 'package:lib_base/lib_base.dart';
 import 'package:lib_uikit/providers/preferences_provider.dart';
 
 class PreferencesUtils {
 
   static int getCurrentPreType(){
-    return libUikitProviderContainer.read(preferencesProvider);
+    return abGlobalProviderContainer.read(preferencesProvider);
   }
 
 }

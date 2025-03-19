@@ -1,4 +1,3 @@
-import 'package:lib_chain_manager/src/providers/ab_chain_global_providers.dart';
 export 'src/impl/ab_chain_manager_impl.dart';
 export 'src/mock/mock_ab_chain_manager_impl.dart';
 export 'src/model/ab_chain_type.dart';
@@ -17,6 +16,5 @@ class LibChainManager {
   static LibChainManager get instance => _instance;
 
   void destroy() {
-    libChainManagerProviderContainer.dispose();
   }
 }
