@@ -13,6 +13,7 @@ class ABChainInfoNotifier extends StateNotifier<List<ABChainInfo>> {
 
   ///初始化provider中的网络数据
   Future<void> _initialize() async {
+
     state = await _manager.getAllChainInfos();
   }
 
