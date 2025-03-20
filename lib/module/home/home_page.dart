@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/module/demo/demo_page.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/demo/demo_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});

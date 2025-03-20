@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/module/demo/demo_page.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/demo/demo_page.dart';
 import 'package:lib_uikit/lib_uikit.dart';
 
 class SettingPage extends StatefulWidget {

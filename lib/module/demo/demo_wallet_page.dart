@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_trust_wallet_core/flutter_trust_wallet_core.dart';
-import 'package:force_wallet/module/demo/demo_chain_page.dart';
-import 'package:force_wallet/module/demo/demo_component_page.dart';
-import 'package:force_wallet/module/demo/demo_setting_page.dart';
-import 'package:force_wallet/utils/time_utils.dart';
+import 'package:ab_wallet/module/demo/demo_chain_page.dart';
+import 'package:ab_wallet/module/demo/demo_component_page.dart';
+import 'package:ab_wallet/module/demo/demo_setting_page.dart';
+import 'package:ab_wallet/utils/time_utils.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:lib_chain_manager/lib_chain_manager.dart';

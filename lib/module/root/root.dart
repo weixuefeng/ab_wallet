@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lib_uikit/lib_uikit.dart';
-import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/module/home/home_page.dart';
-import 'package:force_wallet/module/settings/settings.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/home/home_page.dart';
+import 'package:ab_wallet/module/settings/settings.dart';
 
 class RootScreen extends StatefulWidget {
   const RootScreen({super.key});

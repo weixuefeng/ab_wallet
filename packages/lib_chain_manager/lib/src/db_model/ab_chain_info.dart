@@ -34,49 +34,6 @@ class _ABChainInfo {
   late _ABTokenInfoAdapter? mainTokenInfo;
 
   int? evmChainId;
-
-  // ABChainInfo({
-  //   required this.chainId,
-  //   required this.walletCoreCoinType,
-  //   required this.chainName,
-  //   required this.chainType,
-  //   required this.networkType,
-  //   required this.chainLogo,
-  //   required this.endpoints,
-  //   required this.derivationPath,
-  //   required this.mainTokenInfo,
-  //   this.evmChainId,
-  // });
-  //
-  // toJson() {
-  //   return {
-  //     'chainId': chainId,
-  //     'walletCoreCoinType': walletCoreCoinType,
-  //     'chainName': chainName,
-  //     'chainType': chainType.blockchainIndex,
-  //     'networkType': networkType.networkIndex,
-  //     'chainLogo': chainLogo,
-  //     'endpoints': endpoints.toJson(),
-  //     'derivationPath': derivationPath,
-  //     'mainTokenInfo': mainTokenInfo.toJson(),
-  //     'evmChainId': evmChainId,
-  //   };
-  // }
-  //
-  // factory ABChainInfo.fromJson(Map<String, dynamic> json) {
-  //   return ABChainInfo(
-  //     chainId: json['chainId'],
-  //     walletCoreCoinType: json['walletCoreCoinType'],
-  //     chainName: json['chainName'],
-  //     chainType: ABChainType.fromIndex(json['chainType']),
-  //     networkType: ABNetworkType.fromIndex(json['networkType']),
-  //     chainLogo: json['chainLogo'],
-  //     endpoints: ABChainEndpoints.fromJson(json['endpoints']),
-  //     derivationPath: json['derivationPath'],
-  //     mainTokenInfo: ABTokenInfo.fromJson(json['mainTokenInfo']),
-  //     evmChainId: json['evmChainId'],
-  //   );
-  // }
 }
 
 @RealmModel()
@@ -98,51 +55,8 @@ class _ABChainEndpoints {
 
   late String selectedEndpoints;
 
-/// ABChainEndpoints constructs;
-// ABChainEndpoints({
-//   this.rpcAddresses,
-//   this.restfulAddresses,
-//   this.graphqlAddresses,
-//   this.grpcAddresses,
-//   this.wssAddresses,
-//   this.selectedEndpoints,
-// });
-
-// @override
-// String toString() {
-//   return 'ABChainEndpoints{rpcAddresses: $rpcAddresses, restfulAddresses: $restfulAddresses, graphqlAddresses: $graphqlAddresses, grpcAddresses: $grpcAddresses, wssAddresses: $wssAddresses}';
-// }
-//
-// toJson() {
-//   return {
-//     'rpcAddresses': rpcAddresses,
-//     'restfulAddresses': restfulAddresses,
-//     'graphqlAddresses': graphqlAddresses,
-//     'grpcAddresses': grpcAddresses,
-//     'wssAddresses': wssAddresses,
-//     'selectedEndpoints': selectedEndpoints,
-//   };
-// }
-//
-// factory ABChainEndpoints.fromJson(Map<String, dynamic> json) {
-//   return ABChainEndpoints(
-//     rpcAddresses:
-//         json['rpcAddresses'] == null ? null : (json['rpcAddresses'] as List).map((e) => e as String).toList(),
-//     restfulAddresses:
-//         json['restfulAddresses'] == null
-//             ? null
-//             : (json['restfulAddresses'] as List)?.map((e) => e as String).toList(),
-//     graphqlAddresses:
-//         json['graphqlAddresses'] == null
-//             ? null
-//             : (json['graphqlAddresses'] as List)?.map((e) => e as String).toList(),
-//     grpcAddresses:
-//         json['grpcAddresses'] == null ? null : (json['grpcAddresses'] as List)?.map((e) => e as String).toList(),
-//     wssAddresses:
-//         json['wssAddresses'] == null ? null : (json['wssAddresses'] as List)?.map((e) => e as String).toList(),
-//     selectedEndpoints: json['selectedEndpoints'] == null ? null : (json['selectedEndpoints'] as String),
-//   );
-// }
+  /// chain explorer addresses
+  late String explorerAddresses;
 }
 
 

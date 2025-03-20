@@ -18,8 +18,7 @@ class ABWalletRealmStorage extends ABWalletStorageInterface {
       ABWalletDBInfo.schema,
       ABAccountDBModel.schema,
       ABAccountDetailDBModel.schema,
-      ABProtocolAccountDBModel.schema,
-      ABTokenInfo.schema,
+      ABProtocolAccountDBModel.schema
     ], schemaVersion: 0);
   }
 

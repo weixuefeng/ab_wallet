@@ -1,5 +1,5 @@
-import 'package:force_wallet/network/api.dart';
-import 'package:force_wallet/repositry/model/transaction_mode.dart';
+import 'package:ab_wallet/network/api.dart';
+import 'package:ab_wallet/repositry/model/transaction_mode.dart';
 import 'package:lib_network/impl/ab_api_network_impl.dart';
 
 class TransactionRepo {

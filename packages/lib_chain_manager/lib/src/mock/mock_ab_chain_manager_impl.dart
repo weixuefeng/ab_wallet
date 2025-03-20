@@ -9,7 +9,6 @@ import 'package:realm/realm.dart';
 class MockAbChainManagerImpl extends ABChainManagerInterface {
   late final LocalConfiguration _chainDBInfoConfig;
 
-
   MockAbChainManagerImpl._internal() {
     _chainDBInfoConfig = Configuration.local([
       ABChainInfo.schema,
@@ -30,7 +29,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
   @override
   Future<List<ABChainInfo>> getAllChainInfos() async {
     // 1:get cache chainInfos from dataStorage;
-   var realm = Realm(_chainDBInfoConfig);
+    var realm = Realm(_chainDBInfoConfig);
     var chainDBInfos = realm.all<ABChainInfo>().toList();
     realm.close();
     if (chainDBInfos.isNotEmpty) {
@@ -48,6 +47,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
       'ethereum',
       endpoints: ABChainEndpoints(
         "https://eth.merkle.io",
+        '',
         rpcAddresses: ["https://eth.merkle.io"],
       ),
       'm/44\'/60\'/0\'/0',
@@ -68,7 +68,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
       ABChainType.newchain.name,
       ABNetworkType.mainnet.name,
       'newlogo',
-      endpoints: ABChainEndpoints("", rpcAddresses: [""]),
+      endpoints: ABChainEndpoints("", '', rpcAddresses: [""]),
       'm/44\'/1642\'/0\'/0',
       mainTokenInfo: ABTokenInfoAdapter(
         'AB',
@@ -88,6 +88,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
       'newlogo',
       endpoints: ABChainEndpoints(
         "https://rpc.core.testnet.ab.org",
+        '',
         rpcAddresses: ["https://rpc.core.testnet.ab.org"],
       ),
       'm/44\'/60\'/0\'/0',
@@ -103,7 +104,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
     networkInfoList.add(eth);
     networkInfoList.add(newchain);
     networkInfoList.add(ab);
-    if(networkInfoList.isNotEmpty){
+    if (networkInfoList.isNotEmpty) {
       return Future.value(networkInfoList);
     }
 
@@ -137,7 +138,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
 
   ///通过chainId查询网络信息
   Future<ABChainInfo?> getChainInfoByChainId(int chainId) async {
-  List<ABChainInfo> networkInfoList = await getAllChainInfos();
+    List<ABChainInfo> networkInfoList = await getAllChainInfos();
     for (var chainInfo in networkInfoList) {
       if (chainId == chainInfo.chainId) {
         return chainInfo;
@@ -163,27 +164,30 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
     var realm = Realm(_chainDBInfoConfig);
     try {
       realm.write(() {
-        final chainToDelete = realm.all<ABChainInfo>().firstWhere((chain) =>
-        chain.chainId == info);
+        final chainToDelete = realm.all<ABChainInfo>().firstWhere(
+          (chain) => chain.chainId == info,
+        );
         realm.delete(chainToDelete);
       });
       return true;
     } catch (e) {
       ABLogger.e('Error delete chain info: $e');
       return false;
-    } finally{
+    } finally {
       realm.close();
     }
   }
 
   @override
-  Future<bool> updateChainInfoFromNet(List<ABChainInfo> info) async{
+  Future<bool> updateChainInfoFromNet(List<ABChainInfo> info) async {
     var realm = Realm(_chainDBInfoConfig);
     try {
       realm.write(() {
-        final chainsToDelete = realm.all<ABChainInfo>().where((chain) =>
-        chain.networkType == ABNetworkType.mainnet.name ||
-            chain.networkType == ABNetworkType.testnet.name);
+        final chainsToDelete = realm.all<ABChainInfo>().where(
+          (chain) =>
+              chain.networkType == ABNetworkType.mainnet.name ||
+              chain.networkType == ABNetworkType.testnet.name,
+        );
         realm.deleteMany(chainsToDelete);
         for (var chain in info) {
           realm.add(chain, update: true);
@@ -193,7 +197,7 @@ class MockAbChainManagerImpl extends ABChainManagerInterface {
     } catch (e) {
       ABLogger.e('Error updating chain info from net: $e');
       return false;
-    } finally{
+    } finally {
       realm.close();
     }
   }

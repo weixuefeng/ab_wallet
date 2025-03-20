@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:force_wallet/common/app_initializer.dart';
-import 'package:force_wallet/repositry/initializer_result.dart';
+import 'package:ab_wallet/common/app_initializer.dart';
+import 'package:ab_wallet/repositry/initializer_result.dart';
 
 final appBeforeHomePageInitializerProvider =
     Provider<AppBeforeHomePageInitializer>((ref) {

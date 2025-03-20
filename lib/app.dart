@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:force_wallet/common/app_initializer.dart';
-import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/module/home/home_page.dart';
-import 'package:force_wallet/module/root/root.dart';
-import 'package:force_wallet/providers/initialize_provider.dart';
+import 'package:ab_wallet/common/app_initializer.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/home/home_page.dart';
+import 'package:ab_wallet/providers/initialize_provider.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
 import 'package:lib_uikit/generated/l10n.dart';

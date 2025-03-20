@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:force_wallet/module/demo/demo_chain_page.dart';
-import 'package:force_wallet/module/demo/demo_component_page.dart';
-import 'package:force_wallet/module/demo/demo_setting_page.dart';
-import 'package:force_wallet/module/demo/demo_wallet_page.dart';
-import 'package:force_wallet/module/demo/demo_network_page.dart';
+import 'package:ab_wallet/module/demo/demo_chain_page.dart';
+import 'package:ab_wallet/module/demo/demo_component_page.dart';
+import 'package:ab_wallet/module/demo/demo_setting_page.dart';
+import 'package:ab_wallet/module/demo/demo_wallet_page.dart';
+import 'package:ab_wallet/module/demo/demo_network_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 class DemoPage extends HookConsumerWidget {

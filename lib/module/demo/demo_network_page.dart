@@ -46,6 +46,10 @@ class DemoNetworkPage extends HookConsumerWidget {
 
   /// 模拟网络请求
   void _getLoadNetwork(List<ABChainInfo> chainInfoRead, BuildContext context) {
+    Future.delayed(const Duration(seconds:5),(){
 
+
+
+    });
   }
 }
