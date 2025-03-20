@@ -1,5 +1,6 @@
 export 'src/impl/ab_chain_manager_impl.dart';
 export 'src/mock/mock_ab_chain_manager_impl.dart';
+export 'src/mock/mock_data.dart';
 export 'src/model/ab_chain_type.dart';
 export 'src/db_model/ab_chain_info.dart';
 export 'src/utils/ab_chain_utils.dart';
@@ -16,5 +17,6 @@ class LibChainManager {
   static LibChainManager get instance => _instance;
 
   void destroy() {
+
   }
 }

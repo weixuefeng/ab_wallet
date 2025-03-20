@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:lib_uikit/lib_uikit.dart';
 import 'package:lib_router/lib_router_exports.dart';
-import 'package:force_wallet/common/constants.dart';
-
-import 'package:force_wallet/module/home/home_page.dart';
-import 'package:force_wallet/module/main_screen.dart';
-import 'package:force_wallet/module/settings/settings_page.dart';
+import 'package:ab_wallet/common/constants.dart';
+import 'package:ab_wallet/module/home/home_page.dart';
+import 'package:ab_wallet/module/main_screen.dart';
+import 'package:ab_wallet/module/settings/settings_page.dart';
 
 class AppRouter {
   static final _rootNavigatorKey = GlobalKey<NavigatorState>();

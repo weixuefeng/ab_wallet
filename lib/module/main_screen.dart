@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lib_uikit/lib_uikit.dart';
-import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/module/home/home_page.dart';
-import 'package:force_wallet/module/settings/settings_page.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/home/home_page.dart';
+import 'package:ab_wallet/module/settings/settings_page.dart';
 import 'package:lib_router/lib_router_exports.dart';
 
 class MainScreen extends StatelessWidget {

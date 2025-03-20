@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:force_wallet/common/app_initializer.dart';
+import 'package:ab_wallet/common/app_initializer.dart';
 import 'package:lib_base/lib_base.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:force_wallet/app.dart';
+import 'package:ab_wallet/app.dart';
 
 Future<void> main() async {
   // Centralized management of initialization logic

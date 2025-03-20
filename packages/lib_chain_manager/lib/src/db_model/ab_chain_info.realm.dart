@@ -183,7 +183,8 @@ class ABChainInfo extends _ABChainInfo
 class ABChainEndpoints extends _ABChainEndpoints
     with RealmEntity, RealmObjectBase, RealmObject {
   ABChainEndpoints(
-    String selectedEndpoints, {
+    String selectedEndpoints,
+    String explorerAddresses, {
     Iterable<String> rpcAddresses = const [],
     Iterable<String> restfulAddresses = const [],
     Iterable<String> graphqlAddresses = const [],
@@ -201,6 +202,7 @@ class ABChainEndpoints extends _ABChainEndpoints
     RealmObjectBase.set<RealmList<String>>(
         this, 'wssAddresses', RealmList<String>(wssAddresses));
     RealmObjectBase.set(this, 'selectedEndpoints', selectedEndpoints);
+    RealmObjectBase.set(this, 'explorerAddresses', explorerAddresses);
   }
 
   ABChainEndpoints._();
@@ -250,6 +252,13 @@ class ABChainEndpoints extends _ABChainEndpoints
       RealmObjectBase.set(this, 'selectedEndpoints', value);
 
   @override
+  String get explorerAddresses =>
+      RealmObjectBase.get<String>(this, 'explorerAddresses') as String;
+  @override
+  set explorerAddresses(String value) =>
+      RealmObjectBase.set(this, 'explorerAddresses', value);
+
+  @override
   Stream<RealmObjectChanges<ABChainEndpoints>> get changes =>
       RealmObjectBase.getChanges<ABChainEndpoints>(this);
 
@@ -270,6 +279,7 @@ class ABChainEndpoints extends _ABChainEndpoints
       'grpcAddresses': grpcAddresses.toEJson(),
       'wssAddresses': wssAddresses.toEJson(),
       'selectedEndpoints': selectedEndpoints.toEJson(),
+      'explorerAddresses': explorerAddresses.toEJson(),
     };
   }
 
@@ -279,9 +289,11 @@ class ABChainEndpoints extends _ABChainEndpoints
     return switch (ejson) {
       {
         'selectedEndpoints': EJsonValue selectedEndpoints,
+        'explorerAddresses': EJsonValue explorerAddresses,
       } =>
         ABChainEndpoints(
           fromEJson(selectedEndpoints),
+          fromEJson(explorerAddresses),
           rpcAddresses: fromEJson(ejson['rpcAddresses']),
           restfulAddresses: fromEJson(ejson['restfulAddresses']),
           graphqlAddresses: fromEJson(ejson['graphqlAddresses']),
@@ -308,6 +320,7 @@ class ABChainEndpoints extends _ABChainEndpoints
       SchemaProperty('wssAddresses', RealmPropertyType.string,
           collectionType: RealmCollectionType.list),
       SchemaProperty('selectedEndpoints', RealmPropertyType.string),
+      SchemaProperty('explorerAddresses', RealmPropertyType.string),
     ]);
   }();
 

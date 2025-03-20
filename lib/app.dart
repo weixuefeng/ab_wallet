@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:force_wallet/common/app_initializer.dart';
-import 'package:force_wallet/generated/l10n.dart';
-import 'package:force_wallet/module/home/home_page.dart';
-import 'package:force_wallet/module/main_screen.dart';
-import 'package:force_wallet/providers/initialize_provider.dart';
+import 'package:ab_wallet/common/app_initializer.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/home/home_page.dart';
+import 'package:ab_wallet/module/main_screen.dart';
+import 'package:ab_wallet/providers/initialize_provider.dart';
+import 'package:ab_wallet/common/app_initializer.dart';
+import 'package:ab_wallet/generated/l10n.dart';
+import 'package:ab_wallet/module/home/home_page.dart';
+import 'package:ab_wallet/providers/initialize_provider.dart';
 import 'package:lib_uikit/providers/locale_provider.dart';
 import 'package:lib_uikit/providers/theme_provider.dart';
 import 'package:lib_uikit/generated/l10n.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:lib_base/provider/ab_navigator_provider.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:force_wallet/common/app_routes.dart';
+import 'package:ab_wallet/common/app_routes.dart';
 
 class MyApp extends HookConsumerWidget {
   const MyApp({super.key});

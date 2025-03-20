@@ -40,12 +40,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
-  flutter_trust_wallet_core: d9be3fe423f1851f660eff4cda7feed0b7890600
+  flutter_trust_wallet_core: 4bab1deabd85c652b683216ced510ad82e12c0ed
   MMKV: ce484c1ac40bf76d5f09a0195d2ec5b3d3840d55
-  mmkv_ios: d0e1c7aae5feba9ca6d097cced432f0adf991a5f
+  mmkv_ios: 7bdd84d31a58528c7a09923c5cde88ee00460fd9
   MMKVCore: 1eb661c6c498ab88e3df9ce5d8ff94d05fcc0567
-  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
-  realm: 96335c550d951a76c8d56b7553c396112269994f
+  path_provider_foundation: 2b6b4c569c0fb62ec74538f866245ac84301af46
+  realm: 1a227f2a04d587e50767018609e852749efd23a8
 
 PODFILE CHECKSUM: 251cb053df7158f337c0712f2ab29f4e0fa474ce
 

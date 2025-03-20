@@ -36,6 +36,7 @@ extension ABChainInfoExtension on ABChainInfo {
         json['endpoints'] != null
             ? ABChainEndpoints(
               json['endpoints']['selectedEndpoints'],
+              json['endpoints']['explorerAddresses'],
               rpcAddresses: List<String>.from(
                 json['endpoints']['rpcAddresses'] ?? const [],
               ),
